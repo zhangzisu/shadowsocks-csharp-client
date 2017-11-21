@@ -16,11 +16,11 @@ namespace Shadowsocks.View
 
         public ProxyForm(ShadowsocksController controller)
         {
-            this.Font = System.Drawing.SystemFonts.MessageBoxFont;
+            Font = System.Drawing.SystemFonts.MessageBoxFont;
             InitializeComponent();
 
             UpdateTexts();
-            this.Icon = Icon.FromHandle(Resources.ssw128.GetHicon());
+            Icon = Icon.FromHandle(Resources.ssw128.GetHicon());
 
             this.controller = controller;
             controller.ConfigChanged += controller_ConfigChanged;
@@ -39,7 +39,7 @@ namespace Shadowsocks.View
             ProxyNotificationLabel.Text = I18N.GetString("If server has a plugin, proxy will not be used");
             OKButton.Text = I18N.GetString("OK");
             MyCancelButton.Text = I18N.GetString("Cancel");
-            this.Text = I18N.GetString("Edit Proxy");
+            Text = I18N.GetString("Edit Proxy");
         }
 
         private void controller_ConfigChanged(object sender, EventArgs e)
@@ -97,12 +97,12 @@ namespace Shadowsocks.View
                 controller.DisableProxy();
             }
 
-            this.Close();
+            Close();
         }
 
         private void CancelButton_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void ProxyForm_FormClosed(object sender, FormClosedEventArgs e)

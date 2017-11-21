@@ -22,15 +22,15 @@ namespace Shadowsocks.View
 
         public ConfigForm(ShadowsocksController controller)
         {
-            this.Font = System.Drawing.SystemFonts.MessageBoxFont;
+            Font = System.Drawing.SystemFonts.MessageBoxFont;
             InitializeComponent();
 
             // a dirty hack
-            this.ServersListBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PerformLayout();
+            ServersListBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            PerformLayout();
 
             UpdateTexts();
-            this.Icon = Icon.FromHandle(Resources.ssw128.GetHicon());
+            Icon = Icon.FromHandle(Resources.ssw128.GetHicon());
 
             this.controller = controller;
             controller.ConfigChanged += controller_ConfigChanged;
@@ -57,7 +57,7 @@ namespace Shadowsocks.View
             MyCancelButton.Text = I18N.GetString("Cancel");
             MoveUpButton.Text = I18N.GetString("Move &Up");
             MoveDownButton.Text = I18N.GetString("Move D&own");
-            this.Text = I18N.GetString("Edit Servers");
+            Text = I18N.GetString("Edit Servers");
         }
 
         private void controller_ConfigChanged(object sender, EventArgs e)
@@ -67,8 +67,8 @@ namespace Shadowsocks.View
 
         private void ShowWindow()
         {
-            this.Opacity = 1;
-            this.Show();
+            Opacity = 1;
+            Show();
             IPTextBox.Focus();
         }
 
@@ -275,12 +275,12 @@ namespace Shadowsocks.View
             // We handled this in event handlers, e.g. Add/DeleteButton, SelectedIndexChanged
             // and move operations
             controller.SelectServerIndex(ServersListBox.SelectedIndex);
-            this.Close();
+            Close();
         }
 
         private void CancelButton_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void ConfigForm_Shown(object sender, EventArgs e)

@@ -23,8 +23,8 @@ namespace Shadowsocks.View
         {
             this.code = code;
             InitializeComponent();
-            this.Icon = Icon.FromHandle(Resources.ssw128.GetHicon());
-            this.Text = I18N.GetString("QRCode and URL");
+            Icon = Icon.FromHandle(Resources.ssw128.GetHicon());
+            Text = I18N.GetString("QRCode and URL");
         }
 
         private void GenQR(string ssconfig)

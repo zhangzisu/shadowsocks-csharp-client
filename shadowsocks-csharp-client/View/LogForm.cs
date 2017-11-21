@@ -224,7 +224,7 @@ namespace Shadowsocks.View
             {
             }
 
-            this.Text = I18N.GetString("Log Viewer") +
+            Text = I18N.GetString("Log Viewer") +
                 $" [in: {Utils.FormatBytes(controller.InboundCounter)}, out: {Utils.FormatBytes(controller.OutboundCounter)}]";
         }
 

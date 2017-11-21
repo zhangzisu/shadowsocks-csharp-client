@@ -6,7 +6,6 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 
 using Shadowsocks.Controller;
-using Shadowsocks.Controller.Hotkeys;
 using Shadowsocks.Util;
 using Shadowsocks.View;
 
@@ -81,7 +80,6 @@ namespace Shadowsocks
 #endif
                 MainController = new ShadowsocksController();
                 MenuController = new MenuViewController(MainController);
-                HotKeys.Init(MainController);
                 MainController.Start();
                 Application.Run();
             }
@@ -176,7 +174,6 @@ namespace Shadowsocks
             Application.ApplicationExit -= Application_ApplicationExit;
             SystemEvents.PowerModeChanged -= SystemEvents_PowerModeChanged;
             Application.ThreadException -= Application_ThreadException;
-            HotKeys.Destroy();
             if (MainController != null)
             {
                 MainController.Stop();

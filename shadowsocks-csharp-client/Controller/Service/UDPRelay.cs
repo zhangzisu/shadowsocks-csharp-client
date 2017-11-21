@@ -21,7 +21,7 @@ namespace Shadowsocks.Controller
 
         public UDPRelay(ShadowsocksController controller)
         {
-            this._controller = controller;
+            _controller = controller;
         }
 
         public override bool Handle(byte[] firstPacket, int length, Socket socket, object state)

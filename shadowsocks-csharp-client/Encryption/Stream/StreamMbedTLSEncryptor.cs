@@ -98,7 +98,7 @@ namespace Shadowsocks.Encryption.Stream
             // C# could be multi-threaded
             if (_disposed)
             {
-                throw new ObjectDisposedException(this.ToString());
+                throw new ObjectDisposedException(ToString());
             }
             if (MbedTLS.cipher_update(isEncrypt ? _encryptCtx : _decryptCtx,
                 buf, length, outbuf, ref length) != 0 )

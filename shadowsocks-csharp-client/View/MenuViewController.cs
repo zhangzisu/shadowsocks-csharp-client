@@ -41,12 +41,10 @@ namespace Shadowsocks.View
         private MenuItem autoCheckUpdatesToggleItem;
         private MenuItem checkPreReleaseToggleItem;
         private MenuItem proxyItem;
-        private MenuItem hotKeyItem;
         private MenuItem VerboseLoggingToggleItem;
         private ConfigForm configForm;
         private ProxyForm proxyForm;
         private LogForm logForm;
-        private HotkeySettingsForm hotkeySettingsForm;
         private string _urlToOpen;
 
         public MenuViewController(ShadowsocksController controller)
@@ -70,7 +68,7 @@ namespace Shadowsocks.View
             _notifyIcon.BalloonTipClosed += _notifyIcon_BalloonTipClosed;
             controller.TrafficChanged += controller_TrafficChanged;
 
-            this.updateChecker = new UpdateChecker();
+            updateChecker = new UpdateChecker();
             updateChecker.CheckUpdateCompleted += updateChecker_CheckUpdateCompleted;
 
             LoadCurrentConfiguration();
@@ -108,9 +106,9 @@ namespace Shadowsocks.View
             else
                 newIcon = icon_base;
 
-            if (newIcon != this.targetIcon)
+            if (newIcon != targetIcon)
             {
-                this.targetIcon = newIcon;
+                targetIcon = newIcon;
                 _notifyIcon.Icon = newIcon;
             }
         }
@@ -197,35 +195,33 @@ namespace Shadowsocks.View
 
         private void LoadMenu()
         {
-            this.contextMenu1 = new ContextMenu(new MenuItem[] {
-                this.ServersItem = CreateMenuGroup("Servers", new MenuItem[] {
-                    this.SeperatorItem = new MenuItem("-"),
-                    this.ConfigItem = CreateMenuItem("Edit Servers...", new EventHandler(this.Config_Click)),
-                    CreateMenuItem("Statistics Config...", StatisticsConfigItem_Click),
+            contextMenu1 = new ContextMenu(new MenuItem[] {
+                ServersItem = CreateMenuGroup("Servers", new MenuItem[] {
+                    SeperatorItem = new MenuItem("-"),
+                    ConfigItem = CreateMenuItem("Edit Servers...", new EventHandler(Config_Click)),
                     new MenuItem("-"),
-                    CreateMenuItem("Share Server Config...", new EventHandler(this.QRCodeItem_Click)),
-                    CreateMenuItem("Scan QRCode from Screen...", new EventHandler(this.ScanQRCodeItem_Click)),
-                    CreateMenuItem("Import URL from Clipboard...", new EventHandler(this.ImportURLItem_Click))
+                    CreateMenuItem("Share Server Config...", new EventHandler(QRCodeItem_Click)),
+                    CreateMenuItem("Scan QRCode from Screen...", new EventHandler(ScanQRCodeItem_Click)),
+                    CreateMenuItem("Import URL from Clipboard...", new EventHandler(ImportURLItem_Click))
                 }),
-                this.proxyItem = CreateMenuItem("Forward Proxy...", new EventHandler(this.proxyItem_Click)),
+                proxyItem = CreateMenuItem("Forward Proxy...", new EventHandler(proxyItem_Click)),
                 new MenuItem("-"),
-                this.AutoStartupItem = CreateMenuItem("Start on Boot", new EventHandler(this.AutoStartupItem_Click)),
-                this.ShareOverLANItem = CreateMenuItem("Allow Clients from LAN", new EventHandler(this.ShareOverLANItem_Click)),
+                AutoStartupItem = CreateMenuItem("Start on Boot", new EventHandler(AutoStartupItem_Click)),
+                ShareOverLANItem = CreateMenuItem("Allow Clients from LAN", new EventHandler(ShareOverLANItem_Click)),
                 new MenuItem("-"),
-                this.hotKeyItem = CreateMenuItem("Edit Hotkeys...", new EventHandler(this.hotKeyItem_Click)),
                 CreateMenuGroup("Help", new MenuItem[] {
-                    CreateMenuItem("Show Logs...", new EventHandler(this.ShowLogItem_Click)),
-                    this.VerboseLoggingToggleItem = CreateMenuItem( "Verbose Logging", new EventHandler(this.VerboseLoggingToggleItem_Click) ),
+                    CreateMenuItem("Show Logs...", new EventHandler(ShowLogItem_Click)),
+                    VerboseLoggingToggleItem = CreateMenuItem( "Verbose Logging", new EventHandler(VerboseLoggingToggleItem_Click) ),
                     CreateMenuGroup("Updates...", new MenuItem[] {
-                        CreateMenuItem("Check for Updates...", new EventHandler(this.checkUpdatesItem_Click)),
+                        CreateMenuItem("Check for Updates...", new EventHandler(checkUpdatesItem_Click)),
                         new MenuItem("-"),
-                        this.autoCheckUpdatesToggleItem = CreateMenuItem("Check for Updates at Startup", new EventHandler(this.autoCheckUpdatesToggleItem_Click)),
-                        this.checkPreReleaseToggleItem = CreateMenuItem("Check Pre-release Version", new EventHandler(this.checkPreReleaseToggleItem_Click)),
+                        autoCheckUpdatesToggleItem = CreateMenuItem("Check for Updates at Startup", new EventHandler(autoCheckUpdatesToggleItem_Click)),
+                        checkPreReleaseToggleItem = CreateMenuItem("Check Pre-release Version", new EventHandler(checkPreReleaseToggleItem_Click)),
                     }),
-                    CreateMenuItem("About...", new EventHandler(this.AboutItem_Click)),
+                    CreateMenuItem("About...", new EventHandler(AboutItem_Click)),
                 }),
                 new MenuItem("-"),
-                CreateMenuItem("Quit", new EventHandler(this.Quit_Click))
+                CreateMenuItem("Quit", new EventHandler(Quit_Click))
             });
         }
 
@@ -376,21 +372,6 @@ namespace Shadowsocks.View
             }
         }
 
-        private void ShowHotKeySettingsForm()
-        {
-            if (hotkeySettingsForm != null)
-            {
-                hotkeySettingsForm.Activate();
-            }
-            else
-            {
-                hotkeySettingsForm = new HotkeySettingsForm(controller);
-                hotkeySettingsForm.Show();
-                hotkeySettingsForm.Activate();
-                hotkeySettingsForm.FormClosed += hotkeySettingsForm_FormClosed;
-            }
-        }
-
         private void ShowLogForm()
         {
             if (logForm != null)
@@ -430,13 +411,6 @@ namespace Shadowsocks.View
         {
             proxyForm.Dispose();
             proxyForm = null;
-            Utils.ReleaseMemory(true);
-        }
-
-        void hotkeySettingsForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            hotkeySettingsForm.Dispose();
-            hotkeySettingsForm = null;
             Utils.ReleaseMemory(true);
         }
 
@@ -511,12 +485,6 @@ namespace Shadowsocks.View
         {
             VerboseLoggingToggleItem.Checked = !VerboseLoggingToggleItem.Checked;
             controller.ToggleVerboseLogging(VerboseLoggingToggleItem.Checked);
-        }
-
-        private void StatisticsConfigItem_Click(object sender, EventArgs e)
-        {
-            StatisticsStrategyConfigurationForm form = new StatisticsStrategyConfigurationForm(controller);
-            form.Show();
         }
 
         private void QRCodeItem_Click(object sender, EventArgs e)
@@ -668,11 +636,6 @@ namespace Shadowsocks.View
         private void proxyItem_Click(object sender, EventArgs e)
         {
             ShowProxyForm();
-        }
-
-        private void hotKeyItem_Click(object sender, EventArgs e)
-        {
-            ShowHotKeySettingsForm();
         }
 
         private void ShowLogItem_Click(object sender, EventArgs e)

@@ -40,7 +40,7 @@ namespace Shadowsocks.Controller
 
         public Listener(List<IService> services)
         {
-            this._services = services;
+            _services = services;
         }
 
         public static bool CheckIfPortInUse(int port)
@@ -60,14 +60,10 @@ namespace Shadowsocks.Controller
 
         public void Start(Configuration config)
         {
-            this._config = config;
-            this._shareOverLAN = config.shareOverLan;
+            _config = config;
+            _shareOverLAN = config.shareOverLan;
 
-            //if (CheckIfPortInUse(_config.localPort))
-            //    throw new Exception(I18N.GetString("Port already in use"));
-            while (CheckIfPortInUse(_config.localPort) && _config.localPort <= 65535)
-                _config.localPort++;
-            if (_config.localPort > 65535)
+            if (CheckIfPortInUse(_config.localPort))
                 throw new Exception(I18N.GetString("Port already in use"));
 
             try

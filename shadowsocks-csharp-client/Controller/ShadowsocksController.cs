@@ -38,9 +38,6 @@ namespace Shadowsocks.Controller
         //private GFWListUpdater gfwListUpdater;
         private readonly ConcurrentDictionary<Server, Sip003Plugin> _pluginsByServer;
 
-        public AvailabilityStatistics availabilityStatistics = AvailabilityStatistics.Instance;
-        public StatisticsStrategyConfiguration StatisticsConfiguration { get; private set; }
-
         private long _inboundCounter = 0;
         private long _outboundCounter = 0;
         public long InboundCounter => Interlocked.Read(ref _inboundCounter);
@@ -72,7 +69,6 @@ namespace Shadowsocks.Controller
         public ShadowsocksController()
         {
             _config = Configuration.Load();
-            StatisticsConfiguration = StatisticsStrategyConfiguration.Load();
             _strategyManager = new StrategyManager(this);
             _pluginsByServer = new ConcurrentDictionary<Server, Sip003Plugin>();
             StartReleasingMemory();
@@ -115,7 +111,7 @@ namespace Shadowsocks.Controller
         {
             foreach (var strategy in _strategyManager.GetStrategies())
             {
-                if (strategy.ID == this._config.strategy)
+                if (strategy.ID == _config.strategy)
                 {
                     return strategy;
                 }
@@ -167,12 +163,6 @@ namespace Shadowsocks.Controller
             _config.configs = servers;
             _config.localPort = localPort;
             Configuration.Save(_config);
-        }
-
-        public void SaveStrategyConfigurations(StatisticsStrategyConfiguration configuration)
-        {
-            StatisticsConfiguration = configuration;
-            StatisticsStrategyConfiguration.Save(configuration);
         }
 
         public bool AddServerBySSURL(string ssURL)
@@ -315,14 +305,6 @@ namespace Shadowsocks.Controller
             return $"ss://{url}{tag}";
         }
 
-        public void UpdateStatisticsConfiguration(bool enabled)
-        {
-            if (availabilityStatistics == null) return;
-            availabilityStatistics.UpdateConfiguration(this);
-            _config.availabilityStatistics = enabled;
-            SaveConfig(_config);
-        }
-
         public void ToggleCheckingUpdate(bool enabled)
         {
             _config.autoCheckUpdate = enabled;
@@ -352,32 +334,6 @@ namespace Shadowsocks.Controller
             ConfigChanged?.Invoke(this, new EventArgs());
         }
 
-        public void UpdateLatency(Server server, TimeSpan latency)
-        {
-            if (_config.availabilityStatistics)
-            {
-                availabilityStatistics.UpdateLatency(server, (int)latency.TotalMilliseconds);
-            }
-        }
-
-        public void UpdateInboundCounter(Server server, long n)
-        {
-            Interlocked.Add(ref _inboundCounter, n);
-            if (_config.availabilityStatistics)
-            {
-                availabilityStatistics.UpdateInboundCounter(server, n);
-            }
-        }
-
-        public void UpdateOutboundCounter(Server server, long n)
-        {
-            Interlocked.Add(ref _outboundCounter, n);
-            if (_config.availabilityStatistics)
-            {
-                availabilityStatistics.UpdateOutboundCounter(server, n);
-            }
-        }
-
         protected void Reload()
         {
             StopPlugins();
@@ -387,22 +343,17 @@ namespace Shadowsocks.Controller
             _config = Configuration.Load();
             while (Listener.CheckIfPortInUse(_config.localPort) && _config.localPort <= 65535)
                 _config.localPort++;
-            StatisticsConfiguration = StatisticsStrategyConfiguration.Load();
 
             if (privoxyRunner == null)
             {
                 privoxyRunner = new PrivoxyRunner();
             }
 
-            availabilityStatistics.UpdateConfiguration(this);
-
             if (_listener != null)
             {
                 _listener.Stop();
             }
-            // don't put PrivoxyRunner.Start() before pacServer.Stop()
-            // or bind will fail when switching bind address from 0.0.0.0 to 127.0.0.1
-            // though UseShellExecute is set to true now
+            // No PACServer now.
             privoxyRunner.Stop();
             try
             {

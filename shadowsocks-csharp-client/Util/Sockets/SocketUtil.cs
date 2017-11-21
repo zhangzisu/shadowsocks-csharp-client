@@ -18,7 +18,7 @@ namespace Shadowsocks.Util.Sockets
 
             public override string ToString()
             {
-                return this.Host + ":" + this.Port;
+                return Host + ":" + Port;
             }
         }
 
