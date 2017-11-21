@@ -209,17 +209,15 @@ namespace Shadowsocks.View
                 AutoStartupItem = CreateMenuItem("Start on Boot", new EventHandler(AutoStartupItem_Click)),
                 ShareOverLANItem = CreateMenuItem("Allow Clients from LAN", new EventHandler(ShareOverLANItem_Click)),
                 new MenuItem("-"),
-                CreateMenuGroup("Help", new MenuItem[] {
-                    CreateMenuItem("Show Logs...", new EventHandler(ShowLogItem_Click)),
-                    VerboseLoggingToggleItem = CreateMenuItem( "Verbose Logging", new EventHandler(VerboseLoggingToggleItem_Click) ),
-                    CreateMenuGroup("Updates...", new MenuItem[] {
-                        CreateMenuItem("Check for Updates...", new EventHandler(checkUpdatesItem_Click)),
-                        new MenuItem("-"),
-                        autoCheckUpdatesToggleItem = CreateMenuItem("Check for Updates at Startup", new EventHandler(autoCheckUpdatesToggleItem_Click)),
-                        checkPreReleaseToggleItem = CreateMenuItem("Check Pre-release Version", new EventHandler(checkPreReleaseToggleItem_Click)),
-                    }),
-                    CreateMenuItem("About...", new EventHandler(AboutItem_Click)),
+                CreateMenuItem("Show Logs...", new EventHandler(ShowLogItem_Click)),
+                VerboseLoggingToggleItem = CreateMenuItem( "Verbose Logging", new EventHandler(VerboseLoggingToggleItem_Click) ),
+                CreateMenuGroup("Updates...", new MenuItem[] {
+                    CreateMenuItem("Check for Updates...", new EventHandler(checkUpdatesItem_Click)),
+                    new MenuItem("-"),
+                    autoCheckUpdatesToggleItem = CreateMenuItem("Check for Updates at Startup", new EventHandler(autoCheckUpdatesToggleItem_Click)),
+                    checkPreReleaseToggleItem = CreateMenuItem("Check Pre-release Version", new EventHandler(checkPreReleaseToggleItem_Click)),
                 }),
+                CreateMenuItem("About...", new EventHandler(AboutItem_Click)),
                 new MenuItem("-"),
                 CreateMenuItem("Quit", new EventHandler(Quit_Click))
             });
