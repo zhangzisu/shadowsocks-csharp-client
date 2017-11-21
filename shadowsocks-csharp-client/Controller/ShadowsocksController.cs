@@ -31,11 +31,9 @@ namespace Shadowsocks.Controller
         private Thread _trafficThread;
 
         private Listener _listener;
-        //private PACServer _pacServer;
         private Configuration _config;
         private StrategyManager _strategyManager;
         private PrivoxyRunner privoxyRunner;
-        //private GFWListUpdater gfwListUpdater;
         private readonly ConcurrentDictionary<Server, Sip003Plugin> _pluginsByServer;
 
         private long _inboundCounter = 0;
@@ -411,6 +409,16 @@ namespace Shadowsocks.Controller
         {
             Configuration.Save(newConfig);
             Reload();
+        }
+
+        public void UpdateInboundCounter(Server server, long n)
+        {
+            Interlocked.Add(ref _inboundCounter, n);
+        }
+
+        public void UpdateOutboundCounter(Server server, long n)
+        {
+            Interlocked.Add(ref _outboundCounter, n);
         }
 
         #region Memory Management

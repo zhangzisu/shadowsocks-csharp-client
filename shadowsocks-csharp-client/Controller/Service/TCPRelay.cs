@@ -78,6 +78,21 @@ namespace Shadowsocks.Controller
             }
             handlersToClose.ForEach(h => h.Close());
         }
+
+        public void UpdateInboundCounter(Server server, long n)
+        {
+            _controller.UpdateInboundCounter(server, n);
+        }
+
+        public void UpdateOutboundCounter(Server server, long n)
+        {
+            _controller.UpdateOutboundCounter(server, n);
+        }
+
+        //public void UpdateLatency(Server server, TimeSpan latency)
+        //{
+        //    _controller.UpdateLatency(server, latency);
+        //}
     }
 
     internal class TCPHandler
@@ -198,7 +213,7 @@ namespace Shadowsocks.Controller
 
             _encryptor = EncryptorFactory.GetEncryptor(server.method, server.password);
 
-            _server = server;
+            this._server = server;
 
             /* prepare address buffer length for AEAD */
             Logging.Debug($"_addrBufLength={_addrBufLength}");
@@ -735,6 +750,7 @@ namespace Shadowsocks.Controller
                 var latency = DateTime.Now - _startConnectTime;
                 IStrategy strategy = _controller.GetCurrentStrategy();
                 strategy?.UpdateLatency(_server, latency);
+                //_tcprelay.UpdateLatency(_server, latency);
 
                 StartPipe(session);
             }
@@ -793,6 +809,7 @@ namespace Shadowsocks.Controller
                 var session = (AsyncSession)ar.AsyncState;
                 int bytesRead = session.Remote.EndReceive(ar);
                 _totalRead += bytesRead;
+                _tcprelay.UpdateInboundCounter(_server, bytesRead);
                 if (bytesRead > 0)
                 {
                     lastActivity = DateTime.Now;
@@ -883,6 +900,7 @@ namespace Shadowsocks.Controller
                     return;
                 }
             }
+            _tcprelay.UpdateOutboundCounter(_server, bytesToSend);
             _startSendingTime = DateTime.Now;
             session.Remote.BeginSend(_connetionSendBuffer, 0, bytesToSend, SocketFlags.None,
                 PipeRemoteSendCallback, new object[] { session, bytesToSend });
