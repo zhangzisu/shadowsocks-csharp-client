@@ -292,10 +292,6 @@ namespace Shadowsocks.Controller
         protected void Reload()
         {
             Encryption.RNG.Reload();
-            // some logic in configuration updated the config when saving, we need to read it again
-            _config = Configuration.Load();
-            while (Listener.CheckIfPortInUse(_config.localPort) && _config.localPort <= 65535)
-                _config.localPort++;
 
             if (_listener != null)
             {
@@ -309,6 +305,19 @@ namespace Shadowsocks.Controller
                 {
                     strategy.ReloadServers();
                 }
+
+                _config = Configuration.Load();
+                int oldPort = _config.localPort;
+                while (Listener.CheckIfPortInUse(_config.localPort) && _config.localPort <= 65535)
+                    _config.localPort++;
+                if (_config.localPort != oldPort)
+                    MessageBox.Show(
+                        I18N.GetString("Old port is already in use!") +
+                        "\n" +
+                        I18N.GetString("New port") +
+                        ":" +
+                        _config.localPort
+                        );
 
                 TCPRelay tcpRelay = new TCPRelay(this, _config);
                 UDPRelay udpRelay = new UDPRelay(this);

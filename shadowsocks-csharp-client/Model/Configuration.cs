@@ -56,8 +56,11 @@ namespace Shadowsocks.Model
                 string configContent = (string)key.GetValue(CONFIG_KEY);
                 if (configContent == null) configContent = "";
                 Configuration config = JsonConvert.DeserializeObject<Configuration>(configContent);
-                if (config == null) config = new Configuration();
-                config.isDefault = false;
+                if (config == null) config = new Configuration()
+                {
+                    isDefault = true
+                };
+                else config.isDefault = false;
 
                 if (config.configs == null)
                     config.configs = new List<Server>();

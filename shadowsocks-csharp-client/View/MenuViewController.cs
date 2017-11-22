@@ -63,7 +63,7 @@ namespace Shadowsocks.View
             _notifyIcon.Visible = true;
             _notifyIcon.ContextMenu = contextMenu1;
             _notifyIcon.BalloonTipClicked += notifyIcon1_BalloonTipClicked;
-            _notifyIcon.MouseClick += notifyIcon1_Click;
+            _notifyIcon.MouseClick += NotifyIcon1_Click;
             _notifyIcon.MouseDoubleClick += notifyIcon1_DoubleClick;
             _notifyIcon.BalloonTipClosed += _notifyIcon_BalloonTipClosed;
             controller.TrafficChanged += controller_TrafficChanged;
@@ -449,7 +449,7 @@ namespace Shadowsocks.View
             Process.Start("https://blog.zhangzisu.cn/");
         }
 
-        private void notifyIcon1_Click(object sender, MouseEventArgs e)
+        private void NotifyIcon1_Click(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Middle)
             {
