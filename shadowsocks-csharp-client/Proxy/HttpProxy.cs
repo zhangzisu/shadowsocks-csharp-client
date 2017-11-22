@@ -77,9 +77,11 @@ namespace Shadowsocks.Proxy
 
             var b = Encoding.UTF8.GetBytes(request);
 
-            var st = new HttpState();
-            st.Callback = callback;
-            st.AsyncState = state;
+            var st = new HttpState
+            {
+                Callback = callback,
+                AsyncState = state
+            };
 
             _remote.BeginSend(b, 0, b.Length, 0, HttpRequestSendCallback, st);
         }

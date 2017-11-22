@@ -33,9 +33,10 @@ namespace Shadowsocks.Controller
 
         public override bool Handle(byte[] firstPacket, int length, Socket socket, object state)
         {
-            if (socket.ProtocolType != ProtocolType.Tcp
-                || (length < 2 || firstPacket[0] != 5))
-                return false;
+            //if (socket.ProtocolType != ProtocolType.Tcp
+            //    || (length < 2 || firstPacket[0] != 5))
+            //    return false;
+            if (socket.ProtocolType != ProtocolType.Tcp) return false;
             socket.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.NoDelay, true);
             TCPHandler handler = new TCPHandler(_controller, _config, this, socket);
 
@@ -571,14 +572,8 @@ namespace Shadowsocks.Controller
                 IProxy remote;
                 EndPoint proxyEP = null;
                 EndPoint serverEP = SocketUtil.GetEndPoint(_server.server, _server.server_port);
-                EndPoint pluginEP = _controller.GetPluginLocalEndPointIfConfigured(_server);
 
-                if (pluginEP != null)
-                {
-                    serverEP = pluginEP;
-                    remote = new DirectConnect();
-                }
-                else if (_config.proxy.useProxy)
+                if (_config.proxy.useProxy)
                 {
                     switch (_config.proxy.proxyType)
                     {

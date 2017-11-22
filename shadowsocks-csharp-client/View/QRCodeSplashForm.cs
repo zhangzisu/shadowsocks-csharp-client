@@ -59,8 +59,10 @@ namespace Shadowsocks.View
             w = Width;
             h = Height;
             sw = Stopwatch.StartNew();
-            timer = new Timer();
-            timer.Interval = (int)(ANIMATION_TIME * 1000 / ANIMATION_STEPS);
+            timer = new Timer
+            {
+                Interval = (int)(ANIMATION_TIME * 1000 / ANIMATION_STEPS)
+            };
             timer.Tick += timer_Tick;
             timer.Start();
             bitmap = new Bitmap(Width, Height, PixelFormat.Format32bppArgb);
@@ -266,11 +268,13 @@ namespace Shadowsocks.View
                 Win32.Size size = new Win32.Size(bitmap.Width, bitmap.Height);
                 Win32.Point pointSource = new Win32.Point(0, 0);
                 Win32.Point topPos = new Win32.Point(Left, Top);
-                Win32.BLENDFUNCTION blend = new Win32.BLENDFUNCTION();
-                blend.BlendOp = Win32.AC_SRC_OVER;
-                blend.BlendFlags = 0;
-                blend.SourceConstantAlpha = opacity;
-                blend.AlphaFormat = Win32.AC_SRC_ALPHA;
+                Win32.BLENDFUNCTION blend = new Win32.BLENDFUNCTION
+                {
+                    BlendOp = Win32.AC_SRC_OVER,
+                    BlendFlags = 0,
+                    SourceConstantAlpha = opacity,
+                    AlphaFormat = Win32.AC_SRC_ALPHA
+                };
 
                 Win32.UpdateLayeredWindow(Handle, screenDc, ref topPos, ref size, memDc, ref pointSource, 0, ref blend, Win32.ULW_ALPHA);
             }

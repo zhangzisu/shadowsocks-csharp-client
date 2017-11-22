@@ -59,13 +59,15 @@ namespace Shadowsocks.Controller.Strategy
             {
                 if (!newServerStatus.ContainsKey(server))
                 {
-                    var status = new ServerStatus();
-                    status.server = server;
-                    status.lastFailure = DateTime.MinValue;
-                    status.lastRead = DateTime.Now;
-                    status.lastWrite = DateTime.Now;
-                    status.latency = new TimeSpan(0, 0, 0, 0, 10);
-                    status.lastTimeDetectLatency = DateTime.Now;
+                    var status = new ServerStatus
+                    {
+                        server = server,
+                        lastFailure = DateTime.MinValue,
+                        lastRead = DateTime.Now,
+                        lastWrite = DateTime.Now,
+                        latency = new TimeSpan(0, 0, 0, 0, 10),
+                        lastTimeDetectLatency = DateTime.Now
+                    };
                     newServerStatus[server] = status;
                 }
                 else

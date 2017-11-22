@@ -12,7 +12,7 @@ namespace Shadowsocks.Controller
 {
     public class UpdateChecker
     {
-        private const string UpdateURL = "https://api.github.com/repos/shadowsocks/shadowsocks-windows/releases";
+        private const string UpdateURL = "https://api.github.com/repos/ZhangZisu/shadowsocks-csharp-client/releases";
         private const string UserAgent = "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.3319.102 Safari/537.36";
 
         private Configuration config;
@@ -24,7 +24,7 @@ namespace Shadowsocks.Controller
         public string LatestVersionLocalName;
         public event EventHandler CheckUpdateCompleted;
 
-        public const string Version = "1.0.1";
+        public const string Version = "1.0.2";
 
         private class CheckUpdateTimer : System.Timers.Timer
         {
@@ -37,8 +37,10 @@ namespace Shadowsocks.Controller
 
         public void CheckUpdate(Configuration config, int delay)
         {
-            CheckUpdateTimer timer = new CheckUpdateTimer(delay);
-            timer.AutoReset = false;
+            CheckUpdateTimer timer = new CheckUpdateTimer(delay)
+            {
+                AutoReset = false
+            };
             timer.Elapsed += Timer_Elapsed;
             timer.config = config;
             timer.Enabled = true;
@@ -73,7 +75,7 @@ namespace Shadowsocks.Controller
             */
         }
 
-        private void http_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        private void Http_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
             try
             {
@@ -115,7 +117,7 @@ namespace Shadowsocks.Controller
                     LatestVersionName = asset.name;
                     LatestVersionSuffix = asset.suffix == null ? "" : $"-{asset.suffix}";
 
-                    startDownload();
+                    StartDownload();
                 }
                 else
                 {
@@ -129,7 +131,7 @@ namespace Shadowsocks.Controller
             }
         }
 
-        private void startDownload()
+        private void StartDownload()
         {
             try
             {

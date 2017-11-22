@@ -34,9 +34,10 @@ namespace Shadowsocks.Util
             {
                 try
                 {
-                    Directory.CreateDirectory(Path.Combine(Application.StartupPath, "ss_win_temp"));
+                    //Directory.CreateDirectory(Path.Combine(Application.StartupPath, "ss_win_temp"));
                     // don't use "/", it will fail when we call explorer /select xxx/ss_win_temp\xxx.log
-                    _tempPath = Path.Combine(Application.StartupPath, "ss_win_temp");
+                    //_tempPath = Path.Combine(Application.StartupPath, "ss_win_temp");
+                    _tempPath = Application.StartupPath;
                 }
                 catch (Exception e)
                 {
@@ -202,6 +203,12 @@ namespace Shadowsocks.Util
                 RegistryKey userKey = RegistryKey.OpenBaseKey(hive,
                         Environment.Is64BitOperatingSystem ? RegistryView.Registry64 : RegistryView.Registry32)
                     .OpenSubKey(name, writable);
+                if(userKey == null)
+                {
+                    userKey = RegistryKey.OpenBaseKey(hive,
+                        Environment.Is64BitOperatingSystem ? RegistryView.Registry64 : RegistryView.Registry32)
+                    .CreateSubKey(name, writable);
+                }
                 return userKey;
             }
             catch (ArgumentException ae)

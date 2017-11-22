@@ -15,7 +15,6 @@ using Shadowsocks.Model;
 using Shadowsocks.Properties;
 using Shadowsocks.Util;
 using System.Linq;
-using Shadowsocks.Controller.Service;
 using Shadowsocks.Proxy;
 
 namespace Shadowsocks.Controller
@@ -33,8 +32,6 @@ namespace Shadowsocks.Controller
         private Listener _listener;
         private Configuration _config;
         private StrategyManager _strategyManager;
-        private PrivoxyRunner privoxyRunner;
-        private readonly ConcurrentDictionary<Server, Sip003Plugin> _pluginsByServer;
 
         private long _inboundCounter = 0;
         private long _outboundCounter = 0;
@@ -68,7 +65,6 @@ namespace Shadowsocks.Controller
         {
             _config = Configuration.Load();
             _strategyManager = new StrategyManager(this);
-            _pluginsByServer = new ConcurrentDictionary<Server, Sip003Plugin>();
             StartReleasingMemory();
             StartTrafficStatistics(61);
         }
@@ -129,31 +125,6 @@ namespace Shadowsocks.Controller
                 _config.index = 0;
             }
             return GetCurrentServer();
-        }
-
-        public EndPoint GetPluginLocalEndPointIfConfigured(Server server)
-        {
-            var plugin = _pluginsByServer.GetOrAdd(server, Sip003Plugin.CreateIfConfigured);
-            if (plugin == null)
-            {
-                return null;
-            }
-
-            try
-            {
-                if (plugin.StartIfNeeded())
-                {
-                    Logging.Info(
-                        $"Started SIP003 plugin for {server.Identifier()} on {plugin.LocalEndPoint} - PID: {plugin.ProcessId}");
-                }
-            }
-            catch (Exception ex)
-            {
-                Logging.Error("Failed to start SIP003 plugin: " + ex.Message);
-                throw;
-            }
-
-            return plugin.LocalEndPoint;
         }
 
         public void SaveServers(List<Server> servers, int localPort)
@@ -240,21 +211,7 @@ namespace Shadowsocks.Controller
             {
                 _listener.Stop();
             }
-            StopPlugins();
-            if (privoxyRunner != null)
-            {
-                privoxyRunner.Stop();
-            }
             Encryption.RNG.Close();
-        }
-
-        private void StopPlugins()
-        {
-            foreach (var serverAndPlugin in _pluginsByServer)
-            {
-                serverAndPlugin.Value?.Dispose();
-            }
-            _pluginsByServer.Clear();
         }
 
         public string GetServerURLForCurrentServer()
@@ -334,25 +291,17 @@ namespace Shadowsocks.Controller
 
         protected void Reload()
         {
-            StopPlugins();
-
             Encryption.RNG.Reload();
             // some logic in configuration updated the config when saving, we need to read it again
             _config = Configuration.Load();
             while (Listener.CheckIfPortInUse(_config.localPort) && _config.localPort <= 65535)
                 _config.localPort++;
 
-            if (privoxyRunner == null)
-            {
-                privoxyRunner = new PrivoxyRunner();
-            }
-
             if (_listener != null)
             {
                 _listener.Stop();
             }
             // No PACServer now.
-            privoxyRunner.Stop();
             try
             {
                 var strategy = GetCurrentStrategy();
@@ -361,15 +310,13 @@ namespace Shadowsocks.Controller
                     strategy.ReloadServers();
                 }
 
-                StartPlugins();
-                privoxyRunner.Start(_config);
-
                 TCPRelay tcpRelay = new TCPRelay(this, _config);
                 UDPRelay udpRelay = new UDPRelay(this);
-                List<Listener.IService> services = new List<Listener.IService>();
-                services.Add(tcpRelay);
-                services.Add(udpRelay);
-                services.Add(new PortForwarder(privoxyRunner.RunningPort));
+                List<Listener.IService> services = new List<Listener.IService>
+                {
+                    tcpRelay,
+                    udpRelay
+                };
                 _listener = new Listener(services);
                 _listener.Start(_config);
             }
@@ -377,9 +324,8 @@ namespace Shadowsocks.Controller
             {
                 // translate Microsoft language into human language
                 // i.e. An attempt was made to access a socket in a way forbidden by its access permissions => Port already in use
-                if (e is SocketException)
+                if (e is SocketException se)
                 {
-                    SocketException se = (SocketException)e;
                     if (se.SocketErrorCode == SocketError.AccessDenied)
                     {
                         e = new Exception(I18N.GetString("Port already in use"), e);
@@ -394,15 +340,6 @@ namespace Shadowsocks.Controller
 
             //UpdateSystemProxy();
             Utils.ReleaseMemory(true);
-        }
-
-        private void StartPlugins()
-        {
-            foreach (var server in _config.configs)
-            {
-                // Early start plugin processes
-                GetPluginLocalEndPointIfConfigured(server);
-            }
         }
 
         protected void SaveConfig(Configuration newConfig)
@@ -425,8 +362,10 @@ namespace Shadowsocks.Controller
 
         private void StartReleasingMemory()
         {
-            _ramThread = new Thread(new ThreadStart(ReleaseMemory));
-            _ramThread.IsBackground = true;
+            _ramThread = new Thread(new ThreadStart(ReleaseMemory))
+            {
+                IsBackground = true
+            };
             _ramThread.Start();
         }
 
@@ -450,8 +389,10 @@ namespace Shadowsocks.Controller
             {
                 trafficPerSecondQueue.Enqueue(new TrafficPerSecond());
             }
-            _trafficThread = new Thread(new ThreadStart(() => TrafficStatistics(queueMaxSize)));
-            _trafficThread.IsBackground = true;
+            _trafficThread = new Thread(new ThreadStart(() => TrafficStatistics(queueMaxSize)))
+            {
+                IsBackground = true
+            };
             _trafficThread.Start();
         }
 
@@ -461,10 +402,11 @@ namespace Shadowsocks.Controller
             while (true)
             {
                 previous = trafficPerSecondQueue.Last();
-                current = new TrafficPerSecond();
-                
-                current.inboundCounter = InboundCounter;
-                current.outboundCounter = OutboundCounter;
+                current = new TrafficPerSecond
+                {
+                    inboundCounter = InboundCounter,
+                    outboundCounter = OutboundCounter
+                };
                 current.inboundIncreasement = current.inboundCounter - previous.inboundCounter;
                 current.outboundIncreasement = current.outboundCounter - previous.outboundCounter;
 

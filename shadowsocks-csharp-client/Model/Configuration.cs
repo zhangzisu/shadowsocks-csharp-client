@@ -4,6 +4,8 @@ using System.IO;
 
 using Shadowsocks.Controller;
 using Newtonsoft.Json;
+using Microsoft.Win32;
+using System.Windows.Forms;
 
 namespace Shadowsocks.Model
 {
@@ -26,7 +28,8 @@ namespace Shadowsocks.Model
         public ProxyConfig proxy;
         public HotkeyConfig hotkey;
 
-        private static string CONFIG_FILE = "gui-config.json";
+        //private static string CONFIG_FILE = "config.json";
+        private static string CONFIG_KEY = "config" + Application.StartupPath.GetHashCode();
 
         public Server GetCurrentServer()
         {
@@ -48,8 +51,12 @@ namespace Shadowsocks.Model
         {
             try
             {
-                string configContent = File.ReadAllText(CONFIG_FILE);
+                //string configContent = File.ReadAllText(CONFIG_FILE);
+                RegistryKey key = Util.Utils.OpenRegKey("shadowsocks", false);
+                string configContent = (string)key.GetValue(CONFIG_KEY);
+                if (configContent == null) configContent = "";
                 Configuration config = JsonConvert.DeserializeObject<Configuration>(configContent);
+                if (config == null) config = new Configuration();
                 config.isDefault = false;
 
                 if (config.configs == null)
@@ -103,12 +110,8 @@ namespace Shadowsocks.Model
             config.isDefault = false;
             try
             {
-                using (StreamWriter sw = new StreamWriter(File.Open(CONFIG_FILE, FileMode.Create)))
-                {
-                    string jsonString = JsonConvert.SerializeObject(config, Formatting.Indented);
-                    sw.Write(jsonString);
-                    sw.Flush();
-                }
+                RegistryKey key = Util.Utils.OpenRegKey("shadowsocks", true);
+                key.SetValue(CONFIG_KEY, JsonConvert.SerializeObject(config, Formatting.None));
             }
             catch (IOException e)
             {

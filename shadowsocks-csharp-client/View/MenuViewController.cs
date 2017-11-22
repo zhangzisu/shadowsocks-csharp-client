@@ -310,8 +310,10 @@ namespace Shadowsocks.View
             int i = 0;
             foreach (var strategy in controller.GetStrategies())
             {
-                MenuItem item = new MenuItem(strategy.Name);
-                item.Tag = strategy.ID;
+                MenuItem item = new MenuItem(strategy.Name)
+                {
+                    Tag = strategy.ID
+                };
                 item.Click += AStrategyItem_Click;
                 items.Add(i, item);
                 i++;
@@ -324,8 +326,10 @@ namespace Shadowsocks.View
             Configuration configuration = controller.GetConfigurationCopy();
             foreach (var server in configuration.configs)
             {
-                MenuItem item = new MenuItem(server.FriendlyName());
-                item.Tag = i - strategyCount;
+                MenuItem item = new MenuItem(server.FriendlyName())
+                {
+                    Tag = i - strategyCount
+                };
                 item.Click += AServerItem_Click;
                 items.Add(i, item);
                 i++;

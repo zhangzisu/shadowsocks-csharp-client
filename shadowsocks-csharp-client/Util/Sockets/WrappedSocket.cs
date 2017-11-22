@@ -37,8 +37,10 @@ namespace Shadowsocks.Util.Sockets
                 throw new SocketException((int) SocketError.IsConnected);
             }
 
-            var arg = new SocketAsyncEventArgs();
-            arg.RemoteEndPoint = remoteEP;
+            var arg = new SocketAsyncEventArgs
+            {
+                RemoteEndPoint = remoteEP
+            };
             arg.Completed += OnTcpConnectCompleted;
             arg.UserToken = new TcpUserToken(callback, state);
 

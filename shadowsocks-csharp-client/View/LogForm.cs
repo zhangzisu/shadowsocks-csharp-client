@@ -232,8 +232,10 @@ namespace Shadowsocks.View
         {
             InitContent();
 
-            timer = new Timer();
-            timer.Interval = 100;
+            timer = new Timer
+            {
+                Interval = 100
+            };
             timer.Tick += Timer_Tick;
             timer.Start();
 
@@ -322,8 +324,10 @@ namespace Shadowsocks.View
         {
             try
             {
-                FontDialog fd = new FontDialog();
-                fd.Font = LogMessageTextBox.Font;
+                FontDialog fd = new FontDialog
+                {
+                    Font = LogMessageTextBox.Font
+                };
                 if (fd.ShowDialog() == DialogResult.OK)
                 {
                     LogMessageTextBox.Font = new Font(fd.Font.FontFamily, fd.Font.Size, fd.Font.Style);

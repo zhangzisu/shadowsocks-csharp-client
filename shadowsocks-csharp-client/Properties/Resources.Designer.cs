@@ -19,7 +19,7 @@ namespace Shadowsocks.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -61,38 +61,28 @@ namespace Shadowsocks.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] abp_js {
-            get {
-                object obj = ResourceManager.GetObject("abp_js", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to # translation for Japanese
         ///
         ///Shadowsocks=Shadowsocks
         ///
         ///# Menu items
         ///
-        ///Enable System Proxy=システムの代理を有効にする
+        ///Enable System Proxy=システム プロキシを有効にする
         ///Mode=モード
         ///PAC=PAC
         ///Global=全般
-        ///Servers=サーバ
-        ///Edit Servers...=サーバーを編集する...
+        ///Servers=サーバー
+        ///Edit Servers...=サーバーの編集...
         ///Statistics Config...=統計情報の設定...
         ///Start on Boot=システムと同時に起動
-        ///Forward Proxy...=代理を転送する...
-        ///Allow Clients from LAN=LANからのクライアントを許可する
+        ///Forward Proxy...=フォワードプロキシの設定...
+        ///Allow Clients from LAN=LAN からのアクセスを許可
         ///Local PAC=ローカル PAC
         ///Online PAC=オンライン PAC
-        ///Edit Local PAC File...=ローカル PAC ファイルを編集する...
-        ///Update Local PAC from GFWList=GFWList から、ローカル PACを更新する
-        ///Edit User Rule for GFWList...=利用者規則を編集する...
-        ///Secure Local [rest of string was truncated]&quot;;.
+        ///Edit Local PAC File...=ローカル PAC ファイルの編集...
+        ///Update Local PAC from GFWList=GFWList からローカル PAC を更新
+        ///Edit User Rule for GFWList...=ユーザールールの編集...
+        ///Secure Local  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ja {
             get {
@@ -106,52 +96,6 @@ namespace Shadowsocks.Properties {
         internal static byte[] libsscrypto_dll {
             get {
                 object obj = ResourceManager.GetObject("libsscrypto_dll", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] mgwz_dll {
-            get {
-                object obj = ResourceManager.GetObject("mgwz_dll", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to listen-address __PRIVOXY_BIND_IP__:__PRIVOXY_BIND_PORT__
-        ///toggle 0
-        ///logfile ss_privoxy.log
-        ///show-on-task-bar 0
-        ///activity-animation 0
-        ///forward-socks5 / 127.0.0.1:__SOCKS_PORT__ .
-        ///hide-console
-        ///.
-        /// </summary>
-        internal static string privoxy_conf {
-            get {
-                return ResourceManager.GetString("privoxy_conf", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] privoxy_exe {
-            get {
-                object obj = ResourceManager.GetObject("privoxy_exe", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] proxy_pac_txt {
-            get {
-                object obj = ResourceManager.GetObject("proxy_pac_txt", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -213,37 +157,6 @@ namespace Shadowsocks.Properties {
             get {
                 object obj = ResourceManager.GetObject("ssw128", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] sysproxy_exe {
-            get {
-                object obj = ResourceManager.GetObject("sysproxy_exe", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] sysproxy64_exe {
-            get {
-                object obj = ResourceManager.GetObject("sysproxy64_exe", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ! Put user rules line by line in this file.
-        ///! See https://adblockplus.org/en/filter-cheatsheet
-        ///.
-        /// </summary>
-        internal static string user_rule {
-            get {
-                return ResourceManager.GetString("user_rule", resourceCulture);
             }
         }
         
