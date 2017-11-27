@@ -22,11 +22,11 @@ namespace Shadowsocks.Model
         public int localPort;
         public bool availabilityStatistics;
         public bool autoCheckUpdate;
+        public bool autoUpdateFeeds;
         public bool checkPreRelease;
         public bool isVerboseLogging;
         public LogViewerConfig logViewer;
         public ProxyConfig proxy;
-        public HotkeyConfig hotkey;
 
         //private static string CONFIG_FILE = "config.json";
         private static string CONFIG_KEY = "config" + Application.StartupPath.GetHashCode();
@@ -74,8 +74,6 @@ namespace Shadowsocks.Model
                     config.logViewer = new LogViewerConfig();
                 if (config.proxy == null)
                     config.proxy = new ProxyConfig();
-                if (config.hotkey == null)
-                    config.hotkey = new HotkeyConfig();
 
                 config.proxy.CheckConfig();
 
@@ -96,8 +94,7 @@ namespace Shadowsocks.Model
                         GetDefaultServer()
                     },
                     logViewer = new LogViewerConfig(),
-                    proxy = new ProxyConfig(),
-                    hotkey = new HotkeyConfig()
+                    proxy = new ProxyConfig()
                 };
             }
         }

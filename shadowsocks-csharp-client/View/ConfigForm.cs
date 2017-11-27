@@ -9,6 +9,7 @@ using Microsoft.Win32;
 using Shadowsocks.Controller;
 using Shadowsocks.Model;
 using Shadowsocks.Properties;
+using Shadowsocks.Controller.Service;
 
 namespace Shadowsocks.View
 {
@@ -33,7 +34,7 @@ namespace Shadowsocks.View
             Icon = Icon.FromHandle(Resources.ssw128.GetHicon());
 
             this.controller = controller;
-            controller.ConfigChanged += controller_ConfigChanged;
+            controller.ConfigChanged += Controller_ConfigChanged;
 
             LoadCurrentConfiguration();
         }
@@ -43,13 +44,13 @@ namespace Shadowsocks.View
             AddButton.Text = I18N.GetString("&Add");
             DeleteButton.Text = I18N.GetString("&Delete");
             DuplicateButton.Text = I18N.GetString("Dupli&cate");
+            DeleteFeed.Text = I18N.GetString("Delete &feed");
             IPLabel.Text = I18N.GetString("Server Addr");
             ServerPortLabel.Text = I18N.GetString("Server Port");
             PasswordLabel.Text = I18N.GetString("Password");
             EncryptionLabel.Text = I18N.GetString("Encryption");
-            PluginLabel.Text = I18N.GetString("Plugin");
-            PluginOptionsLabel.Text = I18N.GetString("Plugin Options");
             ProxyPortLabel.Text = I18N.GetString("Proxy Port");
+            FeedLabel.Text = I18N.GetString("Is Feed");
             RemarksLabel.Text = I18N.GetString("Remarks");
             TimeoutLabel.Text = I18N.GetString("Timeout(Sec)");
             ServerGroupBox.Text = I18N.GetString("Server");
@@ -60,7 +61,7 @@ namespace Shadowsocks.View
             Text = I18N.GetString("Edit Servers");
         }
 
-        private void controller_ConfigChanged(object sender, EventArgs e)
+        private void Controller_ConfigChanged(object sender, EventArgs e)
         {
             LoadCurrentConfiguration();
         }
@@ -96,8 +97,6 @@ namespace Shadowsocks.View
                 }
                 server.password = PasswordTextBox.Text;
                 server.method = EncryptionSelect.Text;
-                server.plugin = PluginTextBox.Text;
-                server.plugin_opts = PluginOptionsTextBox.Text;
                 server.remarks = RemarksTextBox.Text;
                 if (!int.TryParse(TimeoutTextBox.Text, out server.timeout))
                 {
@@ -131,8 +130,7 @@ namespace Shadowsocks.View
                 PasswordTextBox.Text = server.password;
                 ProxyPortTextBox.Text = _modifiedConfiguration.localPort.ToString();
                 EncryptionSelect.Text = server.method ?? "aes-256-cfb";
-                PluginTextBox.Text = server.plugin;
-                PluginOptionsTextBox.Text = server.plugin_opts;
+                FeedTextBox.Text = server.isFeed ? "Yes" : "No";
                 RemarksTextBox.Text = server.remarks;
                 TimeoutTextBox.Text = server.timeout.ToString();
             }
@@ -290,7 +288,7 @@ namespace Shadowsocks.View
 
         private void ConfigForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            controller.ConfigChanged -= controller_ConfigChanged;
+            controller.ConfigChanged -= Controller_ConfigChanged;
         }
 
         private void MoveConfigItem(int step)
@@ -357,6 +355,12 @@ namespace Shadowsocks.View
             {
                 MoveConfigItem(+1);  // +1 means move forward
             }
+        }
+
+        private void Button1_Click(object sender, EventArgs e)
+        {
+            ServersListBox.SelectedIndex = -1;
+            controller.DeleteFeed();
         }
     }
 }

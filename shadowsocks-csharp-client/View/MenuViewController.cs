@@ -14,6 +14,7 @@ using Shadowsocks.Model;
 using Shadowsocks.Properties;
 using Shadowsocks.Util;
 using System.Linq;
+using Shadowsocks.Controller.Service;
 
 namespace Shadowsocks.View
 {
@@ -25,6 +26,7 @@ namespace Shadowsocks.View
 
         private ShadowsocksController controller;
         private UpdateChecker updateChecker;
+        private FeedUpdater feedUpdater;
 
         private NotifyIcon _notifyIcon;
         private Bitmap icon_baseBitmap;
@@ -71,6 +73,10 @@ namespace Shadowsocks.View
             updateChecker = new UpdateChecker();
             updateChecker.CheckUpdateCompleted += updateChecker_CheckUpdateCompleted;
 
+            feedUpdater = new FeedUpdater(controller);
+            feedUpdater.StartUpdate += fu_startUpdate;
+            feedUpdater.FinishUpdate += fu_finishUpdate;
+
             LoadCurrentConfiguration();
 
             Configuration config = controller.GetConfigurationCopy();
@@ -85,6 +91,20 @@ namespace Shadowsocks.View
                 _isStartupChecking = true;
                 updateChecker.CheckUpdate(config, 3000);
             }
+            if (config.autoUpdateFeeds)
+            {
+                feedUpdater.UpdateFeed();
+            }
+        }
+
+        private void fu_startUpdate(object sender, EventArgs e)
+        {
+            ShowBalloonTip(I18N.GetString("Shadowsocks"), I18N.GetString("Started update feeds, please wait..."), ToolTipIcon.Info, 5000);
+        }
+
+        private void fu_finishUpdate(object sender, EventArgs e)
+        {
+            ShowBalloonTip(I18N.GetString("Shadowsocks"), I18N.GetString("Updated feeds successfully."), ToolTipIcon.Info, 5000);
         }
 
         private void controller_TrafficChanged(object sender, EventArgs e)
@@ -183,9 +203,12 @@ namespace Shadowsocks.View
 
         #region MenuItems and MenuGroups
 
-        private MenuItem CreateMenuItem(string text, EventHandler click)
+        private MenuItem CreateMenuItem(string text, EventHandler click, bool check = false)
         {
-            return new MenuItem(I18N.GetString(text), click);
+            return new MenuItem(I18N.GetString(text), click)
+            {
+                Checked = check
+            };
         }
 
         private MenuItem CreateMenuGroup(string text, MenuItem[] items)
@@ -210,12 +233,17 @@ namespace Shadowsocks.View
                 ShareOverLANItem = CreateMenuItem("Allow Clients from LAN", new EventHandler(ShareOverLANItem_Click)),
                 new MenuItem("-"),
                 CreateMenuItem("Show Logs...", new EventHandler(ShowLogItem_Click)),
-                VerboseLoggingToggleItem = CreateMenuItem( "Verbose Logging", new EventHandler(VerboseLoggingToggleItem_Click) ),
+                VerboseLoggingToggleItem = CreateMenuItem("Verbose Logging", new EventHandler(VerboseLoggingToggleItem_Click) ),
                 CreateMenuGroup("Updates...", new MenuItem[] {
                     CreateMenuItem("Check for Updates...", new EventHandler(checkUpdatesItem_Click)),
                     new MenuItem("-"),
                     autoCheckUpdatesToggleItem = CreateMenuItem("Check for Updates at Startup", new EventHandler(autoCheckUpdatesToggleItem_Click)),
                     checkPreReleaseToggleItem = CreateMenuItem("Check Pre-release Version", new EventHandler(checkPreReleaseToggleItem_Click)),
+                }),
+                CreateMenuGroup("Feeds...", new MenuItem[] {
+                    CreateMenuItem("Update all feeds...", new EventHandler(UpdateFeeds_Click)),
+                    new MenuItem("-"),
+                    CreateMenuItem("Update feeds at Startup", new EventHandler(autoCheckUpdates), controller.GetConfigurationCopy().autoUpdateFeeds),
                 }),
                 CreateMenuItem("About...", new EventHandler(AboutItem_Click)),
                 new MenuItem("-"),
@@ -224,6 +252,18 @@ namespace Shadowsocks.View
         }
 
         #endregion
+
+        private void UpdateFeeds_Click(object sender, EventArgs e)
+        {
+            feedUpdater.UpdateFeed();
+        }
+
+        private void autoCheckUpdates(object sender, EventArgs e)
+        {
+            Configuration configuration = controller.GetConfigurationCopy();
+            ((MenuItem)sender).Checked = !configuration.autoUpdateFeeds;
+            controller.ToggleFeedAutoUpdate(!configuration.autoUpdateFeeds);
+        }
 
         private void controller_ConfigChanged(object sender, EventArgs e)
         {

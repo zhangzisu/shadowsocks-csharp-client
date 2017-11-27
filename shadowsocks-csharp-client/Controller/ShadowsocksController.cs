@@ -134,12 +134,12 @@ namespace Shadowsocks.Controller
             Configuration.Save(_config);
         }
 
-        public bool AddServerBySSURL(string ssURL)
+        public bool AddServerBySSURL(string ssURL, bool feed = false)
         {
             try
             {
                 if (ssURL.IsNullOrEmpty() || ssURL.IsWhiteSpace()) return false;
-                var servers = Server.GetServers(ssURL);
+                var servers = Server.GetServers(ssURL, feed);
                 if (servers == null || servers.Count == 0) return false;
                 foreach (var server in servers)
                 {
@@ -225,39 +225,35 @@ namespace Shadowsocks.Controller
             string tag = string.Empty;
             string url = string.Empty;
 
-            if (string.IsNullOrWhiteSpace(server.plugin))
-            {
-                // For backwards compatiblity, if no plugin, use old url format
-                string parts = $"{server.method}:{server.password}@{server.server}:{server.server_port}";
-                string base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(parts));
-                url = base64;
-            }
-            else
-            {
-                // SIP002
-                string parts = $"{server.method}:{server.password}";
-                string base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(parts));
-                string websafeBase64 = base64.Replace('+', '-').Replace('/', '_').TrimEnd('=');
-
-                string pluginPart = server.plugin;
-                if (!string.IsNullOrWhiteSpace(server.plugin_opts))
-                {
-                    pluginPart += ";" + server.plugin_opts;
-                }
-
-                url = string.Format(
-                    "{0}@{1}:{2}/?plugin={3}",
-                    websafeBase64,
-                    HttpUtility.UrlEncode(server.server, Encoding.UTF8),
-                    server.server_port,
-                    HttpUtility.UrlEncode(pluginPart, Encoding.UTF8));
-            }
+            // For backwards compatiblity, if no plugin, use old url format
+            string parts = $"{server.method}:{server.password}@{server.server}:{server.server_port}";
+            string base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(parts));
+            url = base64;
 
             if (!server.remarks.IsNullOrEmpty())
             {
                 tag = $"#{HttpUtility.UrlEncode(server.remarks, Encoding.UTF8)}";
             }
             return $"ss://{url}{tag}";
+        }
+
+        public void DeleteFeed()
+        {
+            List<Server> wd = new List<Server>();
+            foreach (var i in _config.configs)
+            {
+                if (i.isFeed) wd.Add(i);
+            }
+            foreach (var i in wd) _config.configs.Remove(i);
+            Configuration.Save(_config);
+            ConfigChanged?.Invoke(this, new EventArgs());
+        }
+
+        public void ToggleFeedAutoUpdate(bool enabled)
+        {
+            _config.autoUpdateFeeds = enabled;
+            Configuration.Save(_config);
+            ConfigChanged?.Invoke(this, new EventArgs());
         }
 
         public void ToggleCheckingUpdate(bool enabled)
@@ -279,13 +275,6 @@ namespace Shadowsocks.Controller
             _config.logViewer = newConfig;
             newConfig.SaveSize();
             Configuration.Save(_config);
-            ConfigChanged?.Invoke(this, new EventArgs());
-        }
-
-        public void SaveHotkeyConfig(HotkeyConfig newConfig)
-        {
-            _config.hotkey = newConfig;
-            SaveConfig(_config);
             ConfigChanged?.Invoke(this, new EventArgs());
         }
 

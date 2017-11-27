@@ -29,8 +29,7 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.PluginOptionsLabel = new System.Windows.Forms.Label();
-            this.PluginTextBox = new System.Windows.Forms.TextBox();
+            this.FeedTextBox = new System.Windows.Forms.TextBox();
             this.RemarksTextBox = new System.Windows.Forms.TextBox();
             this.RemarksLabel = new System.Windows.Forms.Label();
             this.IPLabel = new System.Windows.Forms.Label();
@@ -43,8 +42,7 @@
             this.EncryptionSelect = new System.Windows.Forms.ComboBox();
             this.TimeoutLabel = new System.Windows.Forms.Label();
             this.TimeoutTextBox = new System.Windows.Forms.TextBox();
-            this.PluginLabel = new System.Windows.Forms.Label();
-            this.PluginOptionsTextBox = new System.Windows.Forms.TextBox();
+            this.FeedLabel = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.OKButton = new System.Windows.Forms.Button();
             this.MyCancelButton = new System.Windows.Forms.Button();
@@ -62,6 +60,7 @@
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.DuplicateButton = new System.Windows.Forms.Button();
+            this.DeleteFeed = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.ServerGroupBox.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -78,8 +77,7 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.PluginOptionsLabel, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.PluginTextBox, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.FeedTextBox, 1, 4);
             this.tableLayoutPanel1.Controls.Add(this.RemarksTextBox, 1, 7);
             this.tableLayoutPanel1.Controls.Add(this.RemarksLabel, 0, 7);
             this.tableLayoutPanel1.Controls.Add(this.IPLabel, 0, 0);
@@ -92,8 +90,7 @@
             this.tableLayoutPanel1.Controls.Add(this.EncryptionSelect, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.TimeoutLabel, 0, 8);
             this.tableLayoutPanel1.Controls.Add(this.TimeoutTextBox, 1, 8);
-            this.tableLayoutPanel1.Controls.Add(this.PluginLabel, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.PluginOptionsTextBox, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.FeedLabel, 0, 4);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(8, 21);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -108,33 +105,24 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(253, 215);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(248, 189);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // PluginOptionsLabel
+            // FeedTextBox
             // 
-            this.PluginOptionsLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.PluginOptionsLabel.AutoSize = true;
-            this.PluginOptionsLabel.Location = new System.Drawing.Point(6, 140);
-            this.PluginOptionsLabel.Name = "PluginOptionsLabel";
-            this.PluginOptionsLabel.Size = new System.Drawing.Size(75, 13);
-            this.PluginOptionsLabel.TabIndex = 15;
-            this.PluginOptionsLabel.Text = "Plugin Options";
-            // 
-            // PluginTextBox
-            // 
-            this.PluginTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.PluginTextBox.Location = new System.Drawing.Point(87, 111);
-            this.PluginTextBox.MaxLength = 256;
-            this.PluginTextBox.Name = "PluginTextBox";
-            this.PluginTextBox.Size = new System.Drawing.Size(160, 20);
-            this.PluginTextBox.TabIndex = 4;
-            this.PluginTextBox.WordWrap = false;
+            this.FeedTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FeedTextBox.Location = new System.Drawing.Point(82, 111);
+            this.FeedTextBox.MaxLength = 256;
+            this.FeedTextBox.Name = "FeedTextBox";
+            this.FeedTextBox.ReadOnly = true;
+            this.FeedTextBox.Size = new System.Drawing.Size(160, 20);
+            this.FeedTextBox.TabIndex = 4;
+            this.FeedTextBox.WordWrap = false;
             // 
             // RemarksTextBox
             // 
             this.RemarksTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.RemarksTextBox.Location = new System.Drawing.Point(87, 163);
+            this.RemarksTextBox.Location = new System.Drawing.Point(82, 137);
             this.RemarksTextBox.MaxLength = 32;
             this.RemarksTextBox.Name = "RemarksTextBox";
             this.RemarksTextBox.Size = new System.Drawing.Size(160, 20);
@@ -145,7 +133,7 @@
             // 
             this.RemarksLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.RemarksLabel.AutoSize = true;
-            this.RemarksLabel.Location = new System.Drawing.Point(32, 166);
+            this.RemarksLabel.Location = new System.Drawing.Point(27, 140);
             this.RemarksLabel.Name = "RemarksLabel";
             this.RemarksLabel.Size = new System.Drawing.Size(49, 13);
             this.RemarksLabel.TabIndex = 9;
@@ -155,7 +143,7 @@
             // 
             this.IPLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.IPLabel.AutoSize = true;
-            this.IPLabel.Location = new System.Drawing.Point(30, 9);
+            this.IPLabel.Location = new System.Drawing.Point(25, 9);
             this.IPLabel.Name = "IPLabel";
             this.IPLabel.Size = new System.Drawing.Size(51, 13);
             this.IPLabel.TabIndex = 0;
@@ -165,7 +153,7 @@
             // 
             this.ServerPortLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.ServerPortLabel.AutoSize = true;
-            this.ServerPortLabel.Location = new System.Drawing.Point(21, 35);
+            this.ServerPortLabel.Location = new System.Drawing.Point(16, 35);
             this.ServerPortLabel.Name = "ServerPortLabel";
             this.ServerPortLabel.Size = new System.Drawing.Size(60, 13);
             this.ServerPortLabel.TabIndex = 1;
@@ -175,7 +163,7 @@
             // 
             this.PasswordLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.PasswordLabel.AutoSize = true;
-            this.PasswordLabel.Location = new System.Drawing.Point(28, 61);
+            this.PasswordLabel.Location = new System.Drawing.Point(23, 61);
             this.PasswordLabel.Name = "PasswordLabel";
             this.PasswordLabel.Size = new System.Drawing.Size(53, 13);
             this.PasswordLabel.TabIndex = 2;
@@ -184,7 +172,7 @@
             // IPTextBox
             // 
             this.IPTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.IPTextBox.Location = new System.Drawing.Point(87, 6);
+            this.IPTextBox.Location = new System.Drawing.Point(82, 6);
             this.IPTextBox.MaxLength = 512;
             this.IPTextBox.Name = "IPTextBox";
             this.IPTextBox.Size = new System.Drawing.Size(160, 20);
@@ -194,7 +182,7 @@
             // ServerPortTextBox
             // 
             this.ServerPortTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.ServerPortTextBox.Location = new System.Drawing.Point(87, 32);
+            this.ServerPortTextBox.Location = new System.Drawing.Point(82, 32);
             this.ServerPortTextBox.MaxLength = 10;
             this.ServerPortTextBox.Name = "ServerPortTextBox";
             this.ServerPortTextBox.Size = new System.Drawing.Size(160, 20);
@@ -204,7 +192,7 @@
             // PasswordTextBox
             // 
             this.PasswordTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.PasswordTextBox.Location = new System.Drawing.Point(87, 58);
+            this.PasswordTextBox.Location = new System.Drawing.Point(82, 58);
             this.PasswordTextBox.MaxLength = 256;
             this.PasswordTextBox.Name = "PasswordTextBox";
             this.PasswordTextBox.Size = new System.Drawing.Size(160, 20);
@@ -216,7 +204,7 @@
             // 
             this.EncryptionLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.EncryptionLabel.AutoSize = true;
-            this.EncryptionLabel.Location = new System.Drawing.Point(24, 88);
+            this.EncryptionLabel.Location = new System.Drawing.Point(19, 88);
             this.EncryptionLabel.Name = "EncryptionLabel";
             this.EncryptionLabel.Size = new System.Drawing.Size(57, 13);
             this.EncryptionLabel.TabIndex = 8;
@@ -249,7 +237,7 @@
             "aes-192-gcm",
             "aes-256-gcm",
             "chacha20-ietf-poly1305"});
-            this.EncryptionSelect.Location = new System.Drawing.Point(87, 84);
+            this.EncryptionSelect.Location = new System.Drawing.Point(82, 84);
             this.EncryptionSelect.Name = "EncryptionSelect";
             this.EncryptionSelect.Size = new System.Drawing.Size(160, 21);
             this.EncryptionSelect.TabIndex = 3;
@@ -258,7 +246,7 @@
             // 
             this.TimeoutLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.TimeoutLabel.AutoSize = true;
-            this.TimeoutLabel.Location = new System.Drawing.Point(11, 192);
+            this.TimeoutLabel.Location = new System.Drawing.Point(6, 166);
             this.TimeoutLabel.Name = "TimeoutLabel";
             this.TimeoutLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.TimeoutLabel.Size = new System.Drawing.Size(70, 13);
@@ -268,31 +256,21 @@
             // TimeoutTextBox
             // 
             this.TimeoutTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.TimeoutTextBox.Location = new System.Drawing.Point(87, 189);
+            this.TimeoutTextBox.Location = new System.Drawing.Point(82, 163);
             this.TimeoutTextBox.MaxLength = 5;
             this.TimeoutTextBox.Name = "TimeoutTextBox";
             this.TimeoutTextBox.Size = new System.Drawing.Size(160, 20);
             this.TimeoutTextBox.TabIndex = 7;
             // 
-            // PluginLabel
+            // FeedLabel
             // 
-            this.PluginLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.PluginLabel.AutoSize = true;
-            this.PluginLabel.Location = new System.Drawing.Point(45, 114);
-            this.PluginLabel.Name = "PluginLabel";
-            this.PluginLabel.Size = new System.Drawing.Size(36, 13);
-            this.PluginLabel.TabIndex = 12;
-            this.PluginLabel.Text = "Plugin";
-            // 
-            // PluginOptionsTextBox
-            // 
-            this.PluginOptionsTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.PluginOptionsTextBox.Location = new System.Drawing.Point(87, 137);
-            this.PluginOptionsTextBox.MaxLength = 256;
-            this.PluginOptionsTextBox.Name = "PluginOptionsTextBox";
-            this.PluginOptionsTextBox.Size = new System.Drawing.Size(160, 20);
-            this.PluginOptionsTextBox.TabIndex = 5;
-            this.PluginOptionsTextBox.WordWrap = false;
+            this.FeedLabel.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.FeedLabel.AutoSize = true;
+            this.FeedLabel.Location = new System.Drawing.Point(34, 114);
+            this.FeedLabel.Name = "FeedLabel";
+            this.FeedLabel.Size = new System.Drawing.Size(42, 13);
+            this.FeedLabel.TabIndex = 12;
+            this.FeedLabel.Text = "Is Feed";
             // 
             // panel2
             // 
@@ -362,7 +340,7 @@
             this.ServerGroupBox.Location = new System.Drawing.Point(178, 0);
             this.ServerGroupBox.Margin = new System.Windows.Forms.Padding(12, 0, 0, 0);
             this.ServerGroupBox.Name = "ServerGroupBox";
-            this.ServerGroupBox.Size = new System.Drawing.Size(264, 252);
+            this.ServerGroupBox.Size = new System.Drawing.Size(259, 226);
             this.ServerGroupBox.TabIndex = 0;
             this.ServerGroupBox.TabStop = false;
             this.ServerGroupBox.Text = "Server";
@@ -398,7 +376,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(442, 348);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(437, 322);
             this.tableLayoutPanel2.TabIndex = 7;
             // 
             // tableLayoutPanel6
@@ -411,7 +389,7 @@
             this.tableLayoutPanel6.Controls.Add(this.MoveDownButton, 1, 0);
             this.tableLayoutPanel6.Controls.Add(this.MoveUpButton, 0, 0);
             this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(0, 316);
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(0, 290);
             this.tableLayoutPanel6.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel6.Name = "tableLayoutPanel6";
             this.tableLayoutPanel6.RowCount = 1;
@@ -454,7 +432,7 @@
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel5.Controls.Add(this.ProxyPortTextBox, 1, 0);
             this.tableLayoutPanel5.Controls.Add(this.ProxyPortLabel, 0, 0);
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(256, 252);
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(251, 226);
             this.tableLayoutPanel5.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.Padding = new System.Windows.Forms.Padding(3);
@@ -498,7 +476,7 @@
             this.tableLayoutPanel3.Controls.Add(this.MyCancelButton, 1, 0);
             this.tableLayoutPanel3.Controls.Add(this.OKButton, 0, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(283, 319);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(278, 293);
             this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
@@ -516,8 +494,9 @@
             this.tableLayoutPanel4.Controls.Add(this.DuplicateButton, 0, 1);
             this.tableLayoutPanel4.Controls.Add(this.DeleteButton, 1, 0);
             this.tableLayoutPanel4.Controls.Add(this.AddButton, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.DeleteFeed, 1, 1);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 252);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 226);
             this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 2;
@@ -537,6 +516,18 @@
             this.DuplicateButton.Text = "Dupli&cate";
             this.DuplicateButton.UseVisualStyleBackColor = true;
             this.DuplicateButton.Click += new System.EventHandler(this.DuplicateButton_Click);
+            // 
+            // DeleteFeed
+            // 
+            this.DeleteFeed.Dock = System.Windows.Forms.DockStyle.Left;
+            this.DeleteFeed.Location = new System.Drawing.Point(86, 38);
+            this.DeleteFeed.Margin = new System.Windows.Forms.Padding(3, 6, 0, 3);
+            this.DeleteFeed.Name = "DeleteFeed";
+            this.DeleteFeed.Size = new System.Drawing.Size(80, 23);
+            this.DeleteFeed.TabIndex = 13;
+            this.DeleteFeed.Text = "Delete &feed";
+            this.DeleteFeed.UseVisualStyleBackColor = true;
+            this.DeleteFeed.Click += new System.EventHandler(this.Button1_Click);
             // 
             // ConfigForm
             // 
@@ -608,10 +599,9 @@
         private System.Windows.Forms.Button DuplicateButton;
         private System.Windows.Forms.Label TimeoutLabel;
         private System.Windows.Forms.TextBox TimeoutTextBox;
-        private System.Windows.Forms.Label PluginOptionsLabel;
-        private System.Windows.Forms.TextBox PluginTextBox;
-        private System.Windows.Forms.Label PluginLabel;
-        private System.Windows.Forms.TextBox PluginOptionsTextBox;
+        private System.Windows.Forms.TextBox FeedTextBox;
+        private System.Windows.Forms.Label FeedLabel;
+        private System.Windows.Forms.Button DeleteFeed;
     }
 }
 

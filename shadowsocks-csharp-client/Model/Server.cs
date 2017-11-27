@@ -24,10 +24,9 @@ namespace Shadowsocks.Model
         public int server_port;
         public string password;
         public string method;
-        public string plugin;
-        public string plugin_opts;
         public string remarks;
         public int timeout;
+        public bool isFeed;
 
         public override int GetHashCode()
         {
@@ -70,11 +69,10 @@ namespace Shadowsocks.Model
             server = "";
             server_port = 8388;
             method = "aes-256-cfb";
-            plugin = "";
-            plugin_opts = "";
             password = "";
             remarks = "";
             timeout = DefaultServerTimeoutSec;
+            isFeed = false;
         }
 
         private static Server ParseLegacyURL(string ssURL)
@@ -109,7 +107,7 @@ namespace Shadowsocks.Model
             return server;
         }
 
-        public static List<Server> GetServers(string ssURL)
+        public static List<Server> GetServers(string ssURL, bool feed = false)
         {
             var serverUrls = ssURL.Split('\r', '\n');
 
@@ -125,6 +123,7 @@ namespace Shadowsocks.Model
                 Server legacyServer = ParseLegacyURL(serverUrl);
                 if (legacyServer != null)   //legacy
                 {
+                    legacyServer.isFeed = feed;
                     servers.Add(legacyServer);
                 }
                 else   //SIP002
@@ -167,17 +166,8 @@ namespace Shadowsocks.Model
                     server.password = userInfoParts[1];
 
                     NameValueCollection queryParameters = HttpUtility.ParseQueryString(parsedUrl.Query);
-                    string[] pluginParts = HttpUtility.UrlDecode(queryParameters["plugin"] ?? "").Split(new[] { ';' }, 2);
-                    if (pluginParts.Length > 0)
-                    {
-                        server.plugin = pluginParts[0] ?? "";
-                    }
 
-                    if (pluginParts.Length > 1)
-                    {
-                        server.plugin_opts = pluginParts[1] ?? "";
-                    }
-
+                    server.isFeed = feed;
                     servers.Add(server);
                 }
             }

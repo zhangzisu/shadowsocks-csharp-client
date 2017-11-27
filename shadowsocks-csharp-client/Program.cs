@@ -38,7 +38,7 @@ namespace Shadowsocks
 
                 Process.Start(
                     "http://dotnetsocial.cloudapp.net/GetDotnet?tfm=.NETFramework,Version=v4.6.2");
-                return;
+                //return;
             }
 
             Utils.ReleaseMemory(true);
@@ -68,16 +68,7 @@ namespace Shadowsocks
                     return;
                 }
                 Directory.SetCurrentDirectory(Application.StartupPath);
-#if DEBUG
                 Logging.OpenLogFile();
-
-                // truncate privoxy log file while debugging
-                string privoxyLogFilename = Utils.GetTempPath("privoxy.log");
-                if (File.Exists(privoxyLogFilename))
-                    using (new FileStream(privoxyLogFilename, FileMode.Truncate)) { }
-#else
-                Logging.OpenLogFile();
-#endif
                 MainController = new ShadowsocksController();
                 MenuController = new MenuViewController(MainController);
                 MainController.Start();
