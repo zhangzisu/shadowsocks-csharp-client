@@ -140,7 +140,7 @@ namespace Shadowsocks.Controller.Strategy
             }
         }
 
-        public void UpdateLatency(Model.Server server, TimeSpan latency)
+        public void UpdateLatency(Server server, TimeSpan latency)
         {
             Logging.Debug($"latency: {server.FriendlyName()} {latency}");
 
@@ -152,7 +152,7 @@ namespace Shadowsocks.Controller.Strategy
             }
         }
 
-        public void UpdateLastRead(Model.Server server)
+        public void UpdateLastRead(Server server)
         {
             Logging.Debug($"last read: {server.FriendlyName()}");
 
@@ -163,7 +163,7 @@ namespace Shadowsocks.Controller.Strategy
             }
         }
 
-        public void UpdateLastWrite(Model.Server server)
+        public void UpdateLastWrite(Server server)
         {
             Logging.Debug($"last write: {server.FriendlyName()}");
 
@@ -174,7 +174,7 @@ namespace Shadowsocks.Controller.Strategy
             }
         }
 
-        public void SetFailure(Model.Server server)
+        public void SetFailure(Server server)
         {
             Logging.Debug($"failure: {server.FriendlyName()}");
 

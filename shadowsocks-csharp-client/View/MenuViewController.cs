@@ -59,6 +59,7 @@ namespace Shadowsocks.View
             controller.ShareOverLANStatusChanged += controller_ShareOverLANStatusChanged;
             controller.VerboseLoggingStatusChanged += controller_VerboseLoggingStatusChanged;
             controller.Errored += controller_Errored;
+            controller.ReloadServer += ReloadServer;
 
             _notifyIcon = new NotifyIcon();
             UpdateTrayIcon();
@@ -104,7 +105,10 @@ namespace Shadowsocks.View
 
         private void fu_finishUpdate(object sender, EventArgs e)
         {
-            ShowBalloonTip(I18N.GetString("Shadowsocks"), I18N.GetString("Updated feeds successfully."), ToolTipIcon.Info, 5000);
+            if (sender != null && sender.GetType() == typeof(string))
+                ShowBalloonTip(I18N.GetString("Shadowsocks"), I18N.GetString("Successfully find a free server.") + "\n" + sender, ToolTipIcon.Info, 5000);
+            else
+                ShowBalloonTip(I18N.GetString("Shadowsocks"), I18N.GetString("Successfully updated all feeds."), ToolTipIcon.Info, 5000);
         }
 
         private void controller_TrafficChanged(object sender, EventArgs e)
@@ -252,6 +256,14 @@ namespace Shadowsocks.View
         }
 
         #endregion
+
+        private void ReloadServer(object sender, EventArgs e)
+        {
+            if(sender != null && sender.GetType() == typeof(string))
+            {
+                ShowBalloonTip(I18N.GetString("Shadowsocks"), I18N.GetString("Shadowsocks started at port") + " " + sender, ToolTipIcon.Info, 5000);
+            }
+        }
 
         private void UpdateFeeds_Click(object sender, EventArgs e)
         {
@@ -479,7 +491,7 @@ namespace Shadowsocks.View
         private void ShowFirstTimeBalloon()
         {
             _notifyIcon.BalloonTipTitle = I18N.GetString("Shadowsocks is here");
-            _notifyIcon.BalloonTipText = I18N.GetString("You can turn on/off Shadowsocks in the context menu");
+            _notifyIcon.BalloonTipText = I18N.GetString("You can configure Shadowsocks in the context menu");
             _notifyIcon.BalloonTipIcon = ToolTipIcon.Info;
             _notifyIcon.ShowBalloonTip(0);
         }

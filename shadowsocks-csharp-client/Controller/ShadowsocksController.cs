@@ -58,6 +58,7 @@ namespace Shadowsocks.Controller
         public event EventHandler ShareOverLANStatusChanged;
         public event EventHandler VerboseLoggingStatusChanged;
         public event EventHandler TrafficChanged;
+        public event EventHandler ReloadServer;
 
         public event ErrorEventHandler Errored;
 
@@ -141,11 +142,7 @@ namespace Shadowsocks.Controller
                 if (ssURL.IsNullOrEmpty() || ssURL.IsWhiteSpace()) return false;
                 var servers = Server.GetServers(ssURL, feed);
                 if (servers == null || servers.Count == 0) return false;
-                foreach (var server in servers)
-                {
-                    _config.configs.Add(server);
-                }
-                _config.index = _config.configs.Count - 1;
+                foreach (var server in servers) _config.configs.Add(server);
                 SaveConfig(_config);
                 return true;
             }
@@ -317,6 +314,7 @@ namespace Shadowsocks.Controller
                 };
                 _listener = new Listener(services);
                 _listener.Start(_config);
+                ReloadServer?.Invoke(_config.localPort.ToString(), new EventArgs());
             }
             catch (Exception e)
             {

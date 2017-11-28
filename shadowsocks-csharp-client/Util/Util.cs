@@ -38,6 +38,12 @@ namespace Shadowsocks.Util
                     // don't use "/", it will fail when we call explorer /select xxx/ss_win_temp\xxx.log
                     //_tempPath = Path.Combine(Application.StartupPath, "ss_win_temp");
                     _tempPath = Environment.GetEnvironmentVariable("TEMP");
+                    string path = "ss" + Application.StartupPath.GetHashCode();
+                    if(!Directory.Exists(Path.Combine(_tempPath, path)))
+                    {
+                        Directory.CreateDirectory(Path.Combine(_tempPath, path));
+                    }
+                    _tempPath = Path.Combine(_tempPath, path);
                 }
                 catch (Exception e)
                 {
