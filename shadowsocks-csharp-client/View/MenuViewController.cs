@@ -44,7 +44,10 @@ namespace Shadowsocks.View
         private MenuItem checkPreReleaseToggleItem;
         private MenuItem proxyItem;
         private MenuItem VerboseLoggingToggleItem;
+        private MenuItem feedSettingsItem;
+        private MenuItem updateFeedItem;
         private ConfigForm configForm;
+        private FeedForm feedForm;
         private ProxyForm proxyForm;
         private LogForm logForm;
         private string _urlToOpen;
@@ -62,6 +65,12 @@ namespace Shadowsocks.View
             controller.ReloadServer += ReloadServer;
 
             _notifyIcon = new NotifyIcon();
+            icon_baseBitmap = Resources.ss_id;
+            icon_base = Icon.FromHandle(icon_baseBitmap.GetHicon());
+            targetIcon = icon_base;
+            icon_in = Icon.FromHandle(Resources.ss_i.GetHicon());
+            icon_out = Icon.FromHandle(Resources.ss_o.GetHicon());
+            icon_both = Icon.FromHandle(Resources.ss_io.GetHicon());
             UpdateTrayIcon();
             _notifyIcon.Visible = true;
             _notifyIcon.ContextMenu = contextMenu1;
@@ -98,17 +107,52 @@ namespace Shadowsocks.View
             }
         }
 
+        private void ShowFeedSettings(object sender, EventArgs e)
+        {
+            ShowFeedForm();
+        }
+
+        private void ShowFeedForm()
+        {
+            updateFeedItem.Enabled = false;
+            if (feedForm != null)
+            {
+                feedForm.Activate();
+            }
+            else
+            {
+                feedForm = new FeedForm(feedUpdater);
+                feedForm.Show();
+                feedForm.Activate();
+                feedForm.FormClosed += FeedForm_closed;
+            }
+        }
+
+        private void FeedForm_closed(object sender, EventArgs e)
+        {
+            updateFeedItem.Enabled = true;
+            feedForm.Dispose();
+            feedForm = null;
+            Utils.ReleaseMemory(true);
+        }
+
         private void fu_startUpdate(object sender, EventArgs e)
         {
             ShowBalloonTip(I18N.GetString("Shadowsocks"), I18N.GetString("Started update feeds, please wait..."), ToolTipIcon.Info, 5000);
+            feedSettingsItem.Enabled = false;
         }
 
         private void fu_finishUpdate(object sender, EventArgs e)
         {
             if (sender != null && sender.GetType() == typeof(string))
+            {
                 ShowBalloonTip(I18N.GetString("Shadowsocks"), I18N.GetString("Successfully find a free server.") + "\n" + sender, ToolTipIcon.Info, 5000);
+            } 
             else
+            {
                 ShowBalloonTip(I18N.GetString("Shadowsocks"), I18N.GetString("Successfully updated all feeds."), ToolTipIcon.Info, 5000);
+                feedSettingsItem.Enabled = true;
+            }
         }
 
         private void controller_TrafficChanged(object sender, EventArgs e)
@@ -146,32 +190,8 @@ namespace Shadowsocks.View
 
         private void UpdateTrayIcon()
         {
-            int dpi;
-            Graphics graphics = Graphics.FromHwnd(IntPtr.Zero);
-            dpi = (int)graphics.DpiX;
-            graphics.Dispose();
-            icon_baseBitmap = null;
-            if (dpi < 97)
-            {
-                // dpi = 96;
-                icon_baseBitmap = Resources.ss16;
-            }
-            else if (dpi < 121)
-            {
-                // dpi = 120;
-                icon_baseBitmap = Resources.ss20;
-            }
-            else
-            {
-                icon_baseBitmap = Resources.ss24;
-            }
             Configuration config = controller.GetConfigurationCopy();
 
-            icon_base = Icon.FromHandle(icon_baseBitmap.GetHicon());
-            targetIcon = icon_base;
-            icon_in = Icon.FromHandle(AddBitmapOverlay(icon_baseBitmap, Resources.ssIn24).GetHicon());
-            icon_out = Icon.FromHandle(AddBitmapOverlay(icon_baseBitmap, Resources.ssOut24).GetHicon());
-            icon_both = Icon.FromHandle(AddBitmapOverlay(icon_baseBitmap, Resources.ssIn24, Resources.ssOut24).GetHicon());
             _notifyIcon.Icon = targetIcon;
 
             string serverInfo = null;
@@ -192,7 +212,7 @@ namespace Shadowsocks.View
 
         private Bitmap AddBitmapOverlay(Bitmap original, params Bitmap[] overlays)
         {
-            Bitmap bitmap = new Bitmap(original.Width, original.Height, PixelFormat.Format64bppArgb);
+            Bitmap bitmap = new Bitmap(original);
             Graphics canvas = Graphics.FromImage(bitmap);
             canvas.DrawImage(original, new Point(0, 0));
             foreach (Bitmap overlay in overlays)
@@ -245,7 +265,8 @@ namespace Shadowsocks.View
                     checkPreReleaseToggleItem = CreateMenuItem("Check Pre-release Version", new EventHandler(checkPreReleaseToggleItem_Click)),
                 }),
                 CreateMenuGroup("Feeds...", new MenuItem[] {
-                    CreateMenuItem("Update all feeds...", new EventHandler(UpdateFeeds_Click)),
+                    feedSettingsItem = CreateMenuItem("Feed source settings...", new EventHandler(ShowFeedSettings)),
+                    updateFeedItem = CreateMenuItem("Update all feeds...", new EventHandler(UpdateFeeds_Click)),
                     new MenuItem("-"),
                     CreateMenuItem("Update feeds at Startup", new EventHandler(autoCheckUpdates), controller.GetConfigurationCopy().autoUpdateFeeds),
                 }),

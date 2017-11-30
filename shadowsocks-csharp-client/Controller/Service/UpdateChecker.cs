@@ -24,7 +24,7 @@ namespace Shadowsocks.Controller
         public string LatestVersionLocalName;
         public event EventHandler CheckUpdateCompleted;
 
-        public const string Version = "1.1.0";
+        public const string Version = "1.2.0";
 
         private class CheckUpdateTimer : System.Timers.Timer
         {
@@ -60,19 +60,17 @@ namespace Shadowsocks.Controller
         {
             Logging.Info("Check Update dos not implement.");
             this.config = config;
-            /*
-            try
-            {
-                Logging.Debug("Checking updates...");
-                WebClient http = CreateWebClient();
-                http.DownloadStringCompleted += http_DownloadStringCompleted;
-                http.DownloadStringAsync(new Uri(UpdateURL));
-            }
-            catch (Exception ex)
-            {
-                Logging.LogUsefulException(ex);
-            }
-            */
+            //try
+            //{
+            //    Logging.Debug("Checking updates...");
+            //    WebClient http = CreateWebClient();
+            //    http.DownloadStringCompleted += Http_DownloadStringCompleted;
+            //    http.DownloadStringAsync(new Uri(UpdateURL));
+            //}
+            //catch (Exception ex)
+            //{
+            //    Logging.LogUsefulException(ex);
+            //}
         }
 
         private void Http_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)

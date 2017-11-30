@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -7,42 +9,71 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using ZXing;
 using ZXing.Common;
 using ZXing.QrCode;
 
 namespace Shadowsocks.Controller.Service
 {
-    class FeedUpdater
+    public class FeedUpdater
     {
         private const string UserAgent = "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.3319.102 Safari/537.36";
+        private static string FEED_KEY = "feed" + Application.StartupPath.GetHashCode();
 
         private ShadowsocksController controller;
         public event EventHandler StartUpdate;
         public event EventHandler FinishUpdate;
-        private static List<string> free = new List<string> {
-            "https://freess.cx/images/servers/jp01.png",
-            "https://freess.cx/images/servers/jp02.png",
-            "https://freess.cx/images/servers/jp03.png",
-            "https://freess.cx/images/servers/us01.png",
-            "https://freess.cx/images/servers/us02.png",
-            "https://freess.cx/images/servers/us03.png",
-            "https://en.ss8.fun/images/server01.png",
-            "https://en.ss8.fun/images/server02.png",
-            "https://en.ss8.fun/images/server03.png",
-            "https://go.ishadowx.net/img/qr/usaxxoo.png",
-            "https://go.ishadowx.net/img/qr/usbxxoo.png",
-            "https://go.ishadowx.net/img/qr/uscxxoo.png",
-            "https://go.ishadowx.net/img/qr/sgaxxoo.png",
-            "https://go.ishadowx.net/img/qr/sgbxxoo.png",
-            "https://go.ishadowx.net/img/qr/sgcxxoo.png",
-            "https://go.ishadowx.net/img/qr/jpaxxoo.png",
-            "https://go.ishadowx.net/img/qr/jpbxxoo.png",
-            "https://go.ishadowx.net/img/qr/jpcxxoo.png"
-        };
+        public List<string> feeds;
         public FeedUpdater(ShadowsocksController controller)
         {
             this.controller = controller;
+            try
+            {
+                RegistryKey key = Util.Utils.OpenRegKey("shadowsocks", false);
+                string configContent = (string)key.GetValue(FEED_KEY);
+                if (configContent == null) configContent = "";
+                feeds = JsonConvert.DeserializeObject<List<string>>(configContent);
+                if (feeds == null) feeds = new List<string>();
+            }
+            catch (IOException e)
+            {
+                Logging.LogUsefulException(e);
+            }
+        }
+        public void saveFeed()
+        {
+            try
+            {
+                RegistryKey key = Util.Utils.OpenRegKey("shadowsocks", true);
+                key.SetValue(FEED_KEY, JsonConvert.SerializeObject(feeds, Formatting.None));
+            }
+            catch (IOException e)
+            {
+                Logging.LogUsefulException(e);
+            }
+        }
+        public void exportFeed(string path)
+        {
+            using(var fs = new FileStream(path, FileMode.Create))
+            {
+                using(var writer = new StreamWriter(fs))
+                {
+                    writer.Write(JsonConvert.SerializeObject(feeds, Formatting.Indented));
+                    writer.Flush();
+                }
+            }
+        }
+        public void importFeed(string path)
+        {
+            string text = File.ReadAllText(path);
+            var of = JsonConvert.DeserializeObject<List<string>>(text);
+            foreach(var obj in of)
+            {
+                if (feeds.Contains(obj)) continue;
+                feeds.Add(obj);
+            }
+            saveFeed();
         }
         public void UpdateFeed()
         {
@@ -50,7 +81,7 @@ namespace Shadowsocks.Controller.Service
             controller.DeleteFeed();
             new System.Threading.Thread(() =>
             {
-                foreach (var uri in free)
+                foreach (var uri in feeds)
                 {
                     try
                     {

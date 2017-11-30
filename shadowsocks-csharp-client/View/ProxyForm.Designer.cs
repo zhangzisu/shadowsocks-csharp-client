@@ -40,7 +40,6 @@
             this.ProxyTimeoutTextBox = new System.Windows.Forms.TextBox();
             this.ProxyTimeoutLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.ProxyNotificationLabel = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -76,7 +75,7 @@
             this.tableLayoutPanel1.SetColumnSpan(this.UseProxyCheckBox, 2);
             this.UseProxyCheckBox.Location = new System.Drawing.Point(3, 3);
             this.UseProxyCheckBox.Name = "UseProxyCheckBox";
-            this.UseProxyCheckBox.Size = new System.Drawing.Size(78, 16);
+            this.UseProxyCheckBox.Size = new System.Drawing.Size(74, 17);
             this.UseProxyCheckBox.TabIndex = 0;
             this.UseProxyCheckBox.Text = "Use Proxy";
             this.UseProxyCheckBox.UseVisualStyleBackColor = true;
@@ -88,17 +87,17 @@
             this.ProxyAddrLabel.AutoSize = true;
             this.ProxyAddrLabel.Location = new System.Drawing.Point(3, 71);
             this.ProxyAddrLabel.Name = "ProxyAddrLabel";
-            this.ProxyAddrLabel.Size = new System.Drawing.Size(65, 12);
+            this.ProxyAddrLabel.Size = new System.Drawing.Size(60, 13);
             this.ProxyAddrLabel.TabIndex = 0;
             this.ProxyAddrLabel.Text = "Proxy Addr";
             // 
             // ProxyServerTextBox
             // 
             this.ProxyServerTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.ProxyServerTextBox.Location = new System.Drawing.Point(74, 67);
+            this.ProxyServerTextBox.Location = new System.Drawing.Point(69, 67);
             this.ProxyServerTextBox.MaxLength = 512;
             this.ProxyServerTextBox.Name = "ProxyServerTextBox";
-            this.ProxyServerTextBox.Size = new System.Drawing.Size(142, 21);
+            this.ProxyServerTextBox.Size = new System.Drawing.Size(150, 20);
             this.ProxyServerTextBox.TabIndex = 1;
             this.ProxyServerTextBox.WordWrap = false;
             // 
@@ -106,19 +105,19 @@
             // 
             this.ProxyPortLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.ProxyPortLabel.AutoSize = true;
-            this.ProxyPortLabel.Location = new System.Drawing.Point(222, 71);
+            this.ProxyPortLabel.Location = new System.Drawing.Point(225, 71);
             this.ProxyPortLabel.Name = "ProxyPortLabel";
-            this.ProxyPortLabel.Size = new System.Drawing.Size(77, 12);
+            this.ProxyPortLabel.Size = new System.Drawing.Size(70, 13);
             this.ProxyPortLabel.TabIndex = 2;
             this.ProxyPortLabel.Text = "Proxy Port";
             // 
             // ProxyPortTextBox
             // 
             this.ProxyPortTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.ProxyPortTextBox.Location = new System.Drawing.Point(305, 67);
+            this.ProxyPortTextBox.Location = new System.Drawing.Point(301, 67);
             this.ProxyPortTextBox.MaxLength = 10;
             this.ProxyPortTextBox.Name = "ProxyPortTextBox";
-            this.ProxyPortTextBox.Size = new System.Drawing.Size(58, 21);
+            this.ProxyPortTextBox.Size = new System.Drawing.Size(62, 20);
             this.ProxyPortTextBox.TabIndex = 3;
             this.ProxyPortTextBox.WordWrap = false;
             // 
@@ -128,7 +127,7 @@
             this.ProxyTypeLabel.AutoSize = true;
             this.ProxyTypeLabel.Location = new System.Drawing.Point(3, 40);
             this.ProxyTypeLabel.Name = "ProxyTypeLabel";
-            this.ProxyTypeLabel.Size = new System.Drawing.Size(65, 12);
+            this.ProxyTypeLabel.Size = new System.Drawing.Size(60, 13);
             this.ProxyTypeLabel.TabIndex = 1;
             this.ProxyTypeLabel.Text = "Proxy Type";
             // 
@@ -140,27 +139,27 @@
             this.ProxyTypeComboBox.Items.AddRange(new object[] {
             "SOCKS5",
             "HTTP"});
-            this.ProxyTypeComboBox.Location = new System.Drawing.Point(74, 36);
+            this.ProxyTypeComboBox.Location = new System.Drawing.Point(69, 36);
             this.ProxyTypeComboBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.ProxyTypeComboBox.Name = "ProxyTypeComboBox";
-            this.ProxyTypeComboBox.Size = new System.Drawing.Size(142, 20);
+            this.ProxyTypeComboBox.Size = new System.Drawing.Size(150, 21);
             this.ProxyTypeComboBox.TabIndex = 2;
             // 
             // ProxyTimeoutTextBox
             // 
             this.ProxyTimeoutTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.ProxyTimeoutTextBox.Location = new System.Drawing.Point(305, 36);
+            this.ProxyTimeoutTextBox.Location = new System.Drawing.Point(301, 36);
             this.ProxyTimeoutTextBox.Name = "ProxyTimeoutTextBox";
-            this.ProxyTimeoutTextBox.Size = new System.Drawing.Size(58, 21);
+            this.ProxyTimeoutTextBox.Size = new System.Drawing.Size(62, 20);
             this.ProxyTimeoutTextBox.TabIndex = 3;
             // 
             // ProxyTimeoutLabel
             // 
             this.ProxyTimeoutLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.ProxyTimeoutLabel.AutoSize = true;
-            this.ProxyTimeoutLabel.Location = new System.Drawing.Point(222, 40);
+            this.ProxyTimeoutLabel.Location = new System.Drawing.Point(225, 40);
             this.ProxyTimeoutLabel.Name = "ProxyTimeoutLabel";
-            this.ProxyTimeoutLabel.Size = new System.Drawing.Size(77, 12);
+            this.ProxyTimeoutLabel.Size = new System.Drawing.Size(70, 13);
             this.ProxyTimeoutLabel.TabIndex = 4;
             this.ProxyTimeoutLabel.Text = "Timeout(Sec)";
             // 
@@ -181,7 +180,6 @@
             this.tableLayoutPanel1.Controls.Add(this.ProxyTimeoutTextBox, 3, 1);
             this.tableLayoutPanel1.Controls.Add(this.ProxyServerTextBox, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.ProxyAddrLabel, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.ProxyNotificationLabel, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 0, 4);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(15, 15);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -193,18 +191,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.Size = new System.Drawing.Size(366, 177);
             this.tableLayoutPanel1.TabIndex = 14;
-            // 
-            // ProxyNotificationLabel
-            // 
-            this.ProxyNotificationLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.ProxyNotificationLabel.AutoSize = true;
-            this.tableLayoutPanel1.SetColumnSpan(this.ProxyNotificationLabel, 4);
-            this.ProxyNotificationLabel.ForeColor = System.Drawing.Color.Red;
-            this.ProxyNotificationLabel.Location = new System.Drawing.Point(3, 111);
-            this.ProxyNotificationLabel.Name = "ProxyNotificationLabel";
-            this.ProxyNotificationLabel.Size = new System.Drawing.Size(360, 12);
-            this.ProxyNotificationLabel.TabIndex = 5;
-            this.ProxyNotificationLabel.Text = "If server has a plugin, proxy will not be used";
             // 
             // flowLayoutPanel1
             // 
@@ -258,7 +244,6 @@
         private System.Windows.Forms.TextBox ProxyTimeoutTextBox;
         private System.Windows.Forms.Label ProxyTimeoutLabel;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label ProxyNotificationLabel;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
     }
 }

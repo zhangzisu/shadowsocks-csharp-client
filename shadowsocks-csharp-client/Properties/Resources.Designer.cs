@@ -103,9 +103,9 @@ namespace Shadowsocks.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ss16 {
+        internal static System.Drawing.Bitmap ss_i {
             get {
-                object obj = ResourceManager.GetObject("ss16", resourceCulture);
+                object obj = ResourceManager.GetObject("ss_i", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -113,9 +113,9 @@ namespace Shadowsocks.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ss20 {
+        internal static System.Drawing.Bitmap ss_id {
             get {
-                object obj = ResourceManager.GetObject("ss20", resourceCulture);
+                object obj = ResourceManager.GetObject("ss_id", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +123,9 @@ namespace Shadowsocks.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ss24 {
+        internal static System.Drawing.Bitmap ss_io {
             get {
-                object obj = ResourceManager.GetObject("ss24", resourceCulture);
+                object obj = ResourceManager.GetObject("ss_io", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,19 +133,9 @@ namespace Shadowsocks.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ssIn24 {
+        internal static System.Drawing.Bitmap ss_o {
             get {
-                object obj = ResourceManager.GetObject("ssIn24", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap ssOut24 {
-            get {
-                object obj = ResourceManager.GetObject("ssOut24", resourceCulture);
+                object obj = ResourceManager.GetObject("ss_o", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -36,7 +36,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.1.0.%2a</ApplicationVersion>
+    <ApplicationVersion>1.2.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -176,11 +176,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controller\ShadowsocksController.cs" />
-    <Compile Include="View\CalculationControl.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="View\FeedForm.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\CalculationControl.Designer.cs">
-      <DependentUpon>CalculationControl.cs</DependentUpon>
+    <Compile Include="View\FeedForm.Designer.cs">
+      <DependentUpon>FeedForm.cs</DependentUpon>
     </Compile>
     <Compile Include="View\LogForm.cs">
       <SubType>Form</SubType>
@@ -213,8 +213,8 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\CalculationControl.resx">
-      <DependentUpon>CalculationControl.cs</DependentUpon>
+    <EmbeddedResource Include="View\FeedForm.resx">
+      <DependentUpon>FeedForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\LogForm.resx">
       <DependentUpon>LogForm.cs</DependentUpon>
@@ -238,9 +238,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Resources\ss20.png" />
-    <None Include="Resources\ss16.png" />
-    <None Include="Resources\ss24.png" />
     <None Include="Resources\ssw128.png" />
     <Content Include="Data\zh_CN.txt" />
     <Content Include="Data\zh_TW.txt" />
@@ -248,8 +245,10 @@
     <None Include="FodyWeavers.xml">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Resources\ssIn24.png" />
-    <Content Include="Resources\ssOut24.png" />
+    <None Include="Resources\ss_i.png" />
+    <None Include="Resources\ss_id.png" />
+    <None Include="Resources\ss_io.png" />
+    <None Include="Resources\ss_o.png" />
     <Content Include="shadowsocks.ico" />
   </ItemGroup>
   <ItemGroup>

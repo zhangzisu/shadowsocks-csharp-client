@@ -31,20 +31,22 @@ Updates...=更新...
 Check for Updates...=检查更新
 Check for Updates at Startup=启动时检查更新
 Check Pre-release Version=检查测试版更新
-Edit Hotkeys...=编辑快捷键...
+Feeds...=订阅...
+Update all feeds...=立即更新...
+Update feeds at Startup=启动时更新
 About...=关于...
 Help=帮助
 Quit=退出
 Edit Servers=编辑服务器
 Load Balance=负载均衡
 High Availability=高可用
-Choose by statistics=根据统计
 
 # Config Form
 
 &Add=添加(&A)
 &Delete=删除(&D)
 Dupli&cate=复制(&C)
+Delete &feed=删除订阅(&F)
 Server=服务器
 Server Addr=服务器地址
 Server Port=服务器端口
@@ -95,16 +97,6 @@ Edit Online PAC URL=编辑在线 PAC 网址
 Edit Online PAC URL...=编辑在线 PAC 网址...
 Please input PAC Url=请输入 PAC 网址
 
-# HotkeySettings Form
-
-Switch system proxy=切换系统代理状态
-Switch system proxy mode=切换系统代理模式
-Switch share over LAN=切换局域网共享
-Show Logs=显示日志
-Switch to prev server=切换上个服务器
-Switch to next server=切换下个服务器
-Reg All=注册全部热键
-
 # Messages
 
 Shadowsocks Error: {0}=Shadowsocks 错误: {0}
@@ -140,6 +132,4 @@ Unsupported operating system, use Windows Vista at least.=不支持的操作系�
 Unsupported .NET Framework, please update to 4.6.2 or later.=当前 .NET Framework 版本过低，请升级至4.6.2或更新版本。
 Proxy request failed=代理请求失败
 Proxy handshake failed=代理握手失败
-Register hotkey failed=注册热键失败
-Cannot parse hotkey: {0}=解析热键失败: {0}
 Timeout is invalid, it should not exceed {0}=超时无效，不应超过 {0}
